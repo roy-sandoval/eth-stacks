@@ -44,6 +44,9 @@ dependencies:
   superjson:
     specifier: 1.12.2
     version: 1.12.2
+  truncate-eth-address:
+    specifier: ^1.0.2
+    version: 1.0.2
   viem:
     specifier: ^1.1.4
     version: 1.1.4(typescript@5.0.4)(zod@3.21.4)
@@ -5088,6 +5091,10 @@ packages:
 
   /tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+    dev: false
+
+  /truncate-eth-address@1.0.2:
+    resolution: {integrity: sha512-MLGSzEIDam9XdBQejtCpQfdbgXfYTEkQseqpz+Pcqu6SEvvVC4mYniWFp4n8VG+KOi6jYVtUfA6cqWecSvS3rw==}
     dev: false
 
   /ts-interface-checker@0.1.13:

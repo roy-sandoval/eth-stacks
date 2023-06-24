@@ -1,6 +1,82 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Head from "next/head";
-import { useAccount } from "wagmi";
+import { CopyIcon } from "public/icons/CopyIcon";
+import { UserPlaceholder } from "public/icons/UserPlaceholder";
+import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
+import truncateEthAddress from "truncate-eth-address";
+import Image from "next/image";
+
+const CopyableText = ({
+  children,
+  copyText,
+}: {
+  children: React.ReactNode;
+  copyText?: string;
+}) => {
+  function copyToClipboard() {
+    console.log("copying: ", copyText);
+    // navigator.clipboard.writeText(copyText);
+  }
+
+  return (
+    <div
+      className="flex cursor-pointer items-center gap-2"
+      onClick={copyToClipboard}
+    >
+      {children}
+      <div>
+        <CopyIcon />
+      </div>
+    </div>
+  );
+};
+
+const Header = () => {
+  const { address } = useAccount();
+  const shortAddress = address ? truncateEthAddress(address) : "No address";
+
+  const { data: ens } = useEnsName({
+    address: "0xA0Cf798816D4b9b9866b5330EEa46a18382f251e",
+  });
+
+  const { data: ensAvatar } = useEnsAvatar({
+    name: ens,
+  });
+
+  return (
+    <div className="flex items-center gap-4">
+      <div>
+        {ensAvatar ? (
+          <Image
+            src={ensAvatar}
+            className="h-20 w-20 rounded-full"
+            alt="avatar"
+            height={80}
+            width={80}
+          />
+        ) : (
+          <UserPlaceholder />
+        )}
+      </div>
+      <div>
+        <CopyableText copyText={address?.toString()}>
+          <span>
+            <strong>Main Address:</strong> {shortAddress}
+          </span>
+        </CopyableText>
+        {ens && <span className="mt-2 text-xl">{ens}</span>}
+      </div>
+    </div>
+  );
+};
+
+const EthStacks = () => {
+  return (
+    <div>
+      <Header />
+    </div>
+  );
+};
 
 export default function Home() {
   const { isConnected } = useAccount();
@@ -15,12 +91,15 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-center gap-4">
         <div>
           {isConnected ? (
-            <h1 className="text-4xl font-bold">Hi!</h1>
+            <EthStacks />
           ) : (
-            <h1 className="text-4xl font-bold">App Title</h1>
+            <>
+              {" "}
+              <h1 className="text-4xl font-bold">ETH Stacks</h1>
+              <ConnectButton />
+            </>
           )}
         </div>
-        <ConnectButton />
       </main>
     </>
   );

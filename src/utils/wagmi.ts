@@ -20,7 +20,7 @@ const { connectors } = getDefaultWallets({
 });
 
 export const config = createConfig({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   publicClient,
 });
