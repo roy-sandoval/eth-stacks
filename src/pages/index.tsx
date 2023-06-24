@@ -81,13 +81,36 @@ const Header = ({ address }) => {
   );
 };
 
+const UserTag = () => {
+  return (
+    <div className="flex items-center gap-2">
+      <div>img</div>
+      <div>User</div>
+    </div>
+  );
+};
+const AITag = () => {
+  return (
+    <div className="rounded-md border border-black px-2 py-1">
+      <div>AI Powered</div>
+    </div>
+  );
+};
+const SponsorTag = () => {
+  return (
+    <div className="rounded-md bg-black px-2 py-1 text-white">
+      <div>Gasless</div>
+    </div>
+  );
+};
+
 const Balance = ({ address }) => {
   const { data } = useBalance(address);
   const balance = data?.formatted || "$0.00";
   return (
     <div className="flex w-full flex-col items-center">
       <span className="uppercase">Total balance</span>
-      <span>
+      <span className="font-beni text-[5rem] leading-none ">
         {balance} {data?.symbol}
       </span>
     </div>
@@ -117,37 +140,85 @@ const Divider = () => {
   return <div className="h-[1px] w-full bg-gray-200" />;
 };
 
-const AccountCard = () => {
+const AccountCard = ({ accountData }) => {
+  //onClick run animation then navigate to account page
+
   return (
-    <div className="relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)] px-4 py-6 transition-all hover:translate-y-[-15%]">
+    <div
+      className={`relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md p-4 transition-all hover:translate-y-[-15%] ${accountData.gradient}`}
+    >
       <div className="flex w-full items-center justify-between">
         <div>
           <CopyableText>Address</CopyableText>
-          <span>Type of account</span>
+          {accountData.type !== "normal" && <span>{accountData.type}</span>}
         </div>
-        <div>
-          <span>Tag</span>
-        </div>
+        {accountData.tag === "ai" && <AITag />}
+        {accountData.tag === "sponsor" && <SponsorTag />}
+        {accountData.tag === "user" && <UserTag />}
       </div>
       <div className="flex w-full items-center justify-between">
-        <span>Title</span>
-        <span>Balance</span>
+        <span>
+          <span className="text-[1.5rem]">{accountData.icon}</span>
+          <span className="font-beni text-[3rem]">{accountData.title}</span>
+        </span>
+        <span className="font-beni text-[2.5rem]">Balance</span>
       </div>
     </div>
   );
 };
 
 const Accounts = () => {
-  const accounts = [1, 2, 3, 4];
+  const accounts = [
+    {
+      id: 1,
+      address: "0x123",
+      tag: "sponsor",
+      type: "normal",
+      title: "My NFTs",
+      icon: "🔥",
+      gradient:
+        "bg-gradient-to-b from-[rgba(234,8,184,1)] to-[rgba(255,201,243,1)]",
+    },
+    {
+      id: 2,
+      address: "0x123",
+      tag: "ai",
+      type: "normal",
+      title: "My NFTs",
+      icon: "🔥",
+      gradient:
+        "bg-gradient-to-b from-[rgba(234,198,8,1)] to-[rgba(255,237,201,1)]",
+    },
+    {
+      id: 3,
+      address: "0x123",
+      tag: "user",
+      type: "joint account",
+      title: "My NFTs",
+      icon: "🔥",
+      gradient:
+        "bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)]",
+    },
+    {
+      id: 4,
+      address: "0x123",
+      tag: "none",
+      type: "normal",
+      title: "My NFTs",
+      icon: "🔥",
+      gradient:
+        "bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)]",
+    },
+  ];
   return (
     <div className="flex w-full flex-col items-center">
       <div className="flex flex-col gap-10">
         {accounts.map((account) => (
           <div
-            key={account}
-            className={`relative ${account !== 1 ? "mt-[-9rem]" : "mt-0"}`}
+            key={account.id}
+            className={`relative ${account.id !== 1 ? "mt-[-12rem]" : "mt-0"}`}
           >
-            <AccountCard />
+            <AccountCard accountData={account} />
           </div>
         ))}
         <Button>Add Account</Button>
