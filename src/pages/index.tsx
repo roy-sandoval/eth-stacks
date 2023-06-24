@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Head from "next/head";
 import { CopyIcon } from "public/icons/CopyIcon";
 import { UserPlaceholder } from "public/icons/UserPlaceholder";
-import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
+import { useAccount, useBalance, useEnsAvatar, useEnsName } from "wagmi";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 
@@ -31,8 +31,16 @@ const CopyableText = ({
   );
 };
 
-const Header = () => {
-  const { address } = useAccount();
+const Notifications = () => {
+  return (
+    <div>
+      <div>image</div>
+      <div>counter</div>
+    </div>
+  );
+};
+
+const Header = ({ address }) => {
   const shortAddress = address ? truncateEthAddress(address) : "No address";
 
   const { data: ens } = useEnsName({
@@ -44,36 +52,121 @@ const Header = () => {
   });
 
   return (
-    <div className="flex items-center gap-4">
-      <div>
-        {ensAvatar ? (
-          <Image
-            src={ensAvatar}
-            className="h-20 w-20 rounded-full"
-            alt="avatar"
-            height={80}
-            width={80}
-          />
-        ) : (
-          <UserPlaceholder />
-        )}
+    <div className="flex w-full justify-between">
+      <div className="flex items-center gap-4">
+        <div>
+          {ensAvatar ? (
+            <Image
+              src={ensAvatar}
+              className="h-20 w-20 rounded-full"
+              alt="avatar"
+              height={80}
+              width={80}
+            />
+          ) : (
+            <UserPlaceholder />
+          )}
+        </div>
+        <div>
+          <CopyableText copyText={address?.toString()}>
+            <span>
+              <strong>Main Address:</strong> {shortAddress}
+            </span>
+          </CopyableText>
+          {ens && <span className="mt-2 text-xl">{ens}</span>}
+        </div>
       </div>
-      <div>
-        <CopyableText copyText={address?.toString()}>
-          <span>
-            <strong>Main Address:</strong> {shortAddress}
-          </span>
-        </CopyableText>
-        {ens && <span className="mt-2 text-xl">{ens}</span>}
+      <Notifications />
+    </div>
+  );
+};
+
+const Balance = ({ address }) => {
+  const { data } = useBalance(address);
+  const balance = data?.formatted || "$0.00";
+  return (
+    <div className="flex w-full flex-col items-center">
+      <span className="uppercase">Total balance</span>
+      <span>
+        {balance} {data?.symbol}
+      </span>
+    </div>
+  );
+};
+
+const Button = ({
+  icon,
+  children,
+}: {
+  icon?: any;
+  children: React.ReactNode;
+}) => {
+  return (
+    <button className="rounded-full bg-black px-12 py-5 text-white">
+      {icon && <div>{icon}</div>}
+      <span className="leading-none">{children}</span>
+    </button>
+  );
+};
+
+const Spacer = ({ height }: { height: number }) => {
+  return <div style={{ height: `${height}rem` }} />;
+};
+
+const Divider = () => {
+  return <div className="h-[1px] w-full bg-gray-200" />;
+};
+
+const AccountCard = () => {
+  return (
+    <div className="relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)] px-4 py-6 transition-all hover:translate-y-[-15%]">
+      <div className="flex w-full items-center justify-between">
+        <div>
+          <CopyableText>Address</CopyableText>
+          <span>Type of account</span>
+        </div>
+        <div>
+          <span>Tag</span>
+        </div>
+      </div>
+      <div className="flex w-full items-center justify-between">
+        <span>Title</span>
+        <span>Balance</span>
+      </div>
+    </div>
+  );
+};
+
+const Accounts = () => {
+  const accounts = [1, 2, 3, 4];
+  return (
+    <div className="flex w-full flex-col items-center">
+      <div className="flex flex-col gap-10">
+        {accounts.map((account) => (
+          <div
+            key={account}
+            className={`relative ${account !== 1 ? "mt-[-9rem]" : "mt-0"}`}
+          >
+            <AccountCard />
+          </div>
+        ))}
+        <Button>Add Account</Button>
       </div>
     </div>
   );
 };
 
 const EthStacks = () => {
+  const { address } = useAccount();
   return (
     <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto bg-white p-8">
-      <Header />
+      <Header address={address} />
+      <Spacer height={2} />
+      <Balance address={address} />
+      <Spacer height={1.5} />
+      <Divider />
+      <Spacer height={2.5} />
+      <Accounts />
     </div>
   );
 };
