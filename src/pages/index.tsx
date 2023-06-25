@@ -1,85 +1,13 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Head from "next/head";
-import { CopyIcon } from "public/icons/CopyIcon";
-import { UserPlaceholder } from "public/icons/UserPlaceholder";
-import { useAccount, useBalance, useEnsAvatar, useEnsName } from "wagmi";
-import truncateEthAddress from "truncate-eth-address";
-import Image from "next/image";
-
-const CopyableText = ({
-  children,
-  copyText,
-}: {
-  children: React.ReactNode;
-  copyText?: string;
-}) => {
-  function copyToClipboard() {
-    console.log("copying: ", copyText);
-    // navigator.clipboard.writeText(copyText);
-  }
-
-  return (
-    <div
-      className="flex cursor-pointer items-center gap-2"
-      onClick={copyToClipboard}
-    >
-      {children}
-      <div>
-        <CopyIcon />
-      </div>
-    </div>
-  );
-};
-
-const Notifications = () => {
-  return (
-    <div>
-      <div>image</div>
-      <div>counter</div>
-    </div>
-  );
-};
-
-const Header = ({ address }) => {
-  const shortAddress = address ? truncateEthAddress(address) : "No address";
-
-  const { data: ens } = useEnsName({
-    address: "0xA0Cf798816D4b9b9866b5330EEa46a18382f251e",
-  });
-
-  const { data: ensAvatar } = useEnsAvatar({
-    name: ens,
-  });
-
-  return (
-    <div className="flex w-full justify-between">
-      <div className="flex items-center gap-4">
-        <div>
-          {ensAvatar ? (
-            <Image
-              src={ensAvatar}
-              className="h-20 w-20 rounded-full"
-              alt="avatar"
-              height={80}
-              width={80}
-            />
-          ) : (
-            <UserPlaceholder />
-          )}
-        </div>
-        <div>
-          <CopyableText copyText={address?.toString()}>
-            <span>
-              <strong>Main Address:</strong> {shortAddress}
-            </span>
-          </CopyableText>
-          {ens && <span className="mt-2 text-xl">{ens}</span>}
-        </div>
-      </div>
-      <Notifications />
-    </div>
-  );
-};
+import CopyableText from "~/components/CopyableText";
+import Header from "~/components/Header";
+import { useAccount, useWalletClient } from "wagmi";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Balance from "~/components/Balance";
+import { TokenboundClient } from "@tokenbound/sdk";
 
 const UserTag = () => {
   return (
@@ -89,6 +17,7 @@ const UserTag = () => {
     </div>
   );
 };
+
 const AITag = () => {
   return (
     <div className="rounded-md border border-black px-2 py-1">
@@ -96,23 +25,11 @@ const AITag = () => {
     </div>
   );
 };
+
 const SponsorTag = () => {
   return (
     <div className="rounded-md bg-black px-2 py-1 text-white">
       <div>Gasless</div>
-    </div>
-  );
-};
-
-const Balance = ({ address }) => {
-  const { data } = useBalance(address);
-  const balance = data?.formatted || "$0.00";
-  return (
-    <div className="flex w-full flex-col items-center">
-      <span className="uppercase">Total balance</span>
-      <span className="font-beni text-[5rem] leading-none ">
-        {balance} {data?.symbol}
-      </span>
     </div>
   );
 };
@@ -142,10 +59,35 @@ const Divider = () => {
 
 const AccountCard = ({ accountData }) => {
   //onClick run animation then navigate to account page
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [fade, setFade] = useState(false);
+
+  const toggleSwitch = () => setOpen(!open);
+
+  useEffect(() => {
+    if (open === true) {
+      //after 1.3 seconds, navigate to account page
+      setTimeout(() => {
+        setFade(true);
+        router.push("/account").catch((err) => console.error(err));
+        setOpen(false);
+        setFade(false);
+      }, 1100);
+    }
+  }, [open]);
 
   return (
-    <div
-      className={`relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md p-4 transition-all hover:translate-y-[-15%] ${accountData.gradient}`}
+    <motion.div
+      className={`relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md p-4 transition-all  ${
+        accountData.id === 4
+          ? "hover:translate-y-[-20%]"
+          : "hover:translate-y-[-60%]"
+      }  ${accountData.gradient} card`}
+      layout
+      data-open={open}
+      data-fade={fade}
+      transition={{ duration: 0.5 }}
     >
       <div className="flex w-full items-center justify-between">
         <div>
@@ -156,14 +98,17 @@ const AccountCard = ({ accountData }) => {
         {accountData.tag === "sponsor" && <SponsorTag />}
         {accountData.tag === "user" && <UserTag />}
       </div>
-      <div className="flex w-full items-center justify-between">
+      <div
+        className="flex w-full items-center justify-between"
+        onClick={toggleSwitch}
+      >
         <span>
           <span className="text-[1.5rem]">{accountData.icon}</span>
           <span className="font-beni text-[3rem]">{accountData.title}</span>
         </span>
         <span className="font-beni text-[2.5rem]">Balance</span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -187,7 +132,7 @@ const Accounts = () => {
       title: "My NFTs",
       icon: "🔥",
       gradient:
-        "bg-gradient-to-b from-[rgba(234,198,8,1)] to-[rgba(255,237,201,1)]",
+        "bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)]",
     },
     {
       id: 3,
@@ -197,7 +142,7 @@ const Accounts = () => {
       title: "My NFTs",
       icon: "🔥",
       gradient:
-        "bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)]",
+        "bg-gradient-to-b from-[rgba(234,198,8,1)] to-[rgba(255,237,201,1)]",
     },
     {
       id: 4,
@@ -210,6 +155,22 @@ const Accounts = () => {
         "bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)]",
     },
   ];
+
+  const { data: walletClient } = useWalletClient();
+
+  const tokenboundClient = new TokenboundClient({ walletClient, chainId: 1 });
+
+  const nftContract = "0x3f74F59fcD89c08CB0a29a08042ccd84E26F624D";
+
+  function handleCreateAccount() {
+    const preparedAccount = tokenboundClient.getAccount({
+      tokenContract: nftContract,
+      tokenId: "0",
+    });
+
+    console.log(preparedAccount);
+  }
+
   return (
     <div className="flex w-full flex-col items-center">
       <div className="flex flex-col gap-10">
@@ -221,7 +182,9 @@ const Accounts = () => {
             <AccountCard accountData={account} />
           </div>
         ))}
-        <Button>Add Account</Button>
+        <div onClick={() => handleCreateAccount()}>
+          <Button>Add Account</Button>
+        </div>
       </div>
     </div>
   );
@@ -230,7 +193,7 @@ const Accounts = () => {
 const EthStacks = () => {
   const { address } = useAccount();
   return (
-    <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto bg-white p-8">
+    <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto  bg-white p-8">
       <Header address={address} />
       <Spacer height={2} />
       <Balance address={address} />
