@@ -1,0 +1,9 @@
+{
+    "name": "eth-stacks",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "side_panel": {
+        "default_path": "index.html"
+      },
+      "permissions": ["sidePanel"]
+  }
