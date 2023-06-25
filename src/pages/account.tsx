@@ -47,7 +47,7 @@ const DisplayNFTs = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3  ">
           {userNFTs &&
             userNFTs.map((nft, i) => {
               return (

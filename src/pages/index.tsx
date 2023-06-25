@@ -63,11 +63,50 @@ const SponsorTag = () => {
     </div>
   );
 };
+interface FormValues {
+  label: string;
+  icon: string;
+}
+
+const AddAccount = ({
+  formState,
+  handleFormChange,
+}: {
+  formState: FormValues;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return (
+    <div className="flex items-center justify-center">
+      <div className="relative  w-[36rem] rounded-lg bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)] p-4  ">
+        {/* <div className="absolute top-[-10px] -z-10 h-full w-full rounded-lg bg-pink-500 content-['']" /> */}
+        <span className="font-beni text-[6rem] leading-none text-white">
+          Create A Stack
+        </span>
+        <div className="mt-4 flex flex-col gap-4">
+          <input
+            type="text"
+            name="label"
+            value={formState.label}
+            onChange={handleFormChange}
+            className="rounded-md border border-black p-2"
+            placeholder="Title"
+          />
+          <input
+            type="text"
+            name="icon"
+            value={formState.icon}
+            onChange={handleFormChange}
+            className="mb-8 rounded-md border border-black p-2"
+            placeholder="Choose an emoji"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
   const router = useRouter();
-
-  if (status !== "authenticated") return null;
 
   const [open, setOpen] = useState(false);
   const [fade, setFade] = useState(false);
@@ -126,10 +165,9 @@ const Accounts = ({
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const { data: accounts } = api.subdirectory.getAll.useQuery();
-  const factoryAddress = "0x7f9d84Bf414F63E98D911c835a594435b376B390";
+  const factoryAddress = "0xA556719b7b297a7ba14ebC539Ad5360587858669";
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
-  const { isSignedIn, signData } = useSIWE();
 
   const { mutate } = api.subdirectory.add.useMutation({
     onSuccess: () => {
@@ -150,48 +188,11 @@ const Accounts = ({
     address: factoryAddress,
     abi: [
       {
-        inputs: [
-          {
-            internalType: "string",
-            name: "_name",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "_symbol",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "owner",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "uri",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "registry",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "implementation",
-            type: "address",
-          },
-        ],
         name: "createFinanceNFT",
-        outputs: [
-          {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
-        ],
-        stateMutability: "nonpayable",
         type: "function",
+        stateMutability: "nonpayable",
+        inputs: [],
+        outputs: [],
       },
     ],
     functionName: "deploy",
@@ -213,7 +214,6 @@ const Accounts = ({
 
   return (
     <>
-      <SIWEButton showSignOutButton />
       {isAddingAccount ? (
         <div className="flex flex-col items-end gap-4">
           <span
@@ -252,8 +252,12 @@ const Accounts = ({
             <Button>Save Stack</Button>
           </div>
         ) : (
-          <div onClick={() => setIsAddingAccount(!isAddingAccount)}>
+          <div
+            className="flex flex-col gap-2"
+            onClick={() => setIsAddingAccount(!isAddingAccount)}
+          >
             <Button>Add Stack</Button>
+            <Button>Create Root</Button>
           </div>
         )}
       </div>
