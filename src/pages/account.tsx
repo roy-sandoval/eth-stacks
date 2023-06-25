@@ -9,10 +9,8 @@ import { init, useQuery } from "@airstack/airstack-react";
 init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
 const DisplayNFTs = () => {
-  const query = `query {GetAllNFTsOwnedByVitalik {
-    TokenBalances(
-      input: {filter: {owner: {_in: ["vitalik.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}
-    ) {
+  const query = `query GetAllNFTsOwnedByVitalik {
+    TokenBalances(input: {filter: {owner: {_in: ["vitalik.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}) {
       TokenBalance {
         owner {
           addresses
@@ -21,10 +19,16 @@ const DisplayNFTs = () => {
           address
           tokenId
           blockchain
+          contentValue {
+            image {
+              original
+            }
+          }
         }
       }
     }
-  }`;
+  }
+  `;
 
   const { data, loading } = useQuery(query);
   console.log(data);
