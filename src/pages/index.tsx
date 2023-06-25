@@ -144,7 +144,7 @@ const Accounts = ({
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const { data: accounts } = api.subdirectory.getAll.useQuery();
-  const factoryAddress = "0xA556719b7b297a7ba14ebC539Ad5360587858669";
+  const factoryAddress = "0x7f9d84Bf414F63E98D911c835a594435b376B390";
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
 
@@ -167,11 +167,48 @@ const Accounts = ({
     address: factoryAddress,
     abi: [
       {
-        name: "createFinanceNFT",
-        type: "function",
-        stateMutability: "nonpayable",
-        inputs: [],
-        outputs: [],
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_symbol",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "registry",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "implementation",
+            "type": "address"
+          }
+        ],
+        "name": "createFinanceNFT",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
     ],
     functionName: "deploy",
