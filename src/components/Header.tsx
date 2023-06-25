@@ -3,6 +3,7 @@ import Image from "next/image";
 import { UserPlaceholder } from "public/icons/UserPlaceholder";
 import { useEnsAvatar, useEnsName } from "wagmi";
 import CopyableText from "./CopyableText";
+import Link from "next/link";
 
 const Notifications = () => {
   return (
@@ -57,9 +58,14 @@ export const Header = ({
             </span>
           </CopyableText>
           {ens ? (
-            <span className="mt-2 text-xl">{ens}</span>
+            <Link href="/">
+              <span className="mt-2 text-xl">{ens}</span>
+            </Link>
           ) : (
-            <span className="mt-2 text-xl">My Account</span>
+            <Link href="/">
+              {" "}
+              <span className="mt-2 text-xl">My Account</span>
+            </Link>
           )}
           {subdirectory && <span className="text-xl"> / {subdirectory}</span>}
         </div>

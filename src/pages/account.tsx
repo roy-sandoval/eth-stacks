@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useAccount } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 import Balance from "~/components/Balance";
 import Divider from "~/components/Divider";
 import Header from "~/components/Header";
@@ -12,7 +12,7 @@ init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
 const DisplayNFTs = () => {
   const query = `query GetAllNFTsOwnedByVitalik {
-    TokenBalances(input: {filter: {owner: {_in: ["vitalik.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}) {
+    TokenBalances(input: {filter: {owner: {_in: ["0xtay.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}) {
       TokenBalance {
         owner {
           addresses
@@ -25,6 +25,9 @@ const DisplayNFTs = () => {
             image {
               original
             }
+          }
+          metaData {
+            name
           }
         }
       }
@@ -39,7 +42,6 @@ const DisplayNFTs = () => {
     if (data) {
       setUserNFTs(data.TokenBalances.TokenBalance);
     }
-    console.log(userNFTs);
   }, [data, userNFTs]);
 
   return (
@@ -47,19 +49,24 @@ const DisplayNFTs = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="grid grid-cols-3  ">
+        <div className="grid grid-cols-2 gap-8 ">
           {userNFTs &&
             userNFTs.map((nft, i) => {
               return (
                 <div key={i}>
                   {nft.tokenNfts.contentValue.image !== null && (
-                    <div className="relative h-40 w-20 overflow-hidden">
-                      <Image
-                        src={nft.tokenNfts.contentValue.image.original}
-                        alt={nft.tokenNfts.address}
-                        fill
-                        className="h-full w-full object-cover"
-                      />
+                    <div className="flex flex-col gap-2">
+                      <div className="relative aspect-[5/6] w-full overflow-hidden rounded-md">
+                        <Image
+                          src={nft.tokenNfts.contentValue.image.original}
+                          alt={nft.tokenNfts.address}
+                          fill
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <span className="font-bold">
+                        {nft.tokenNfts.metaData.name}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -67,6 +74,46 @@ const DisplayNFTs = () => {
             })}
         </div>
       )}
+    </div>
+  );
+};
+
+const TokenBalance = ({ amount, token }: { amount: any; token: string }) => {
+  const tokenPrice = 1800;
+  const amountInUSD = (amount * tokenPrice).toLocaleString("en-US");
+  return (
+    <div className="text-primary-content flex items-center gap-4 rounded-[0.25rem] bg-gray-100 px-2 py-1">
+      <div>
+        <Image
+          src={`/tokens/${token}.svg`}
+          alt={token}
+          width={16}
+          height={16}
+        />
+      </div>
+      <div className="flex flex-col">
+        <span className="font-bold">
+          {amount} {token}
+        </span>
+        <span className="text-sm opacity-60">${amountInUSD}</span>
+      </div>
+    </div>
+  );
+};
+
+const DisplayERC20s = ({ address }: { address: `0x${string}` }) => {
+  const { data: ethBalance } = useBalance({
+    address: address,
+  });
+
+  return (
+    <div>
+      <div className="flex items-center justify-center gap-8">
+        <TokenBalance
+          amount={ethBalance?.formatted}
+          token={ethBalance?.symbol}
+        />
+      </div>
     </div>
   );
 };
@@ -81,6 +128,10 @@ const AccountView = () => {
         <Spacer height={2.5} />
         <Balance address={address} />
         <Spacer height={1} />
+        <Divider />
+        <Spacer height={2} />
+        <DisplayERC20s address={address} />
+        <Spacer height={2} />
         <Divider />
         <Spacer height={3} />
         <DisplayNFTs />
