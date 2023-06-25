@@ -1,13 +1,36 @@
 import Head from "next/head";
 import { useAccount } from "wagmi";
 import Balance from "~/components/Balance";
+import Divider from "~/components/Divider";
 import Header from "~/components/Header";
+import Spacer from "~/components/Spacer";
+import { init, useQuery } from "@airstack/airstack-react";
+
+init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
 const DisplayNFTs = () => {
+  const query = `query {GetAllNFTsOwnedByVitalik {
+    TokenBalances(
+      input: {filter: {owner: {_in: ["vitalik.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}
+    ) {
+      TokenBalance {
+        owner {
+          addresses
+        }
+        tokenNfts {
+          address
+          tokenId
+          blockchain
+        }
+      }
+    }
+  }`;
+
+  const { data, loading } = useQuery(query);
+  console.log(data);
+
   return (
-    <div>
-      <div>Hi</div>
-    </div>
+    <div>{loading ? <p>Loading...</p> : <div>{JSON.stringify(data)}</div>}</div>
   );
 };
 
@@ -15,19 +38,21 @@ const AccountView = () => {
   const { address } = useAccount();
   return (
     <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto  bg-white p-8">
-      {address && (
-        <>
-          {" "}
-          <Header address={address} subdirectory="title" />
-          <Balance address={address} />
-          <DisplayNFTs />
-        </>
-      )}
+      <>
+        {" "}
+        <Header address={address} subdirectory="title" />
+        <Spacer height={2.5} />
+        <Balance address={address} />
+        <Spacer height={1} />
+        <Divider />
+        <Spacer height={3} />
+        <DisplayNFTs />
+      </>
     </div>
   );
 };
 
-export default function Home() {
+export default function Account() {
   return (
     <>
       <Head>
