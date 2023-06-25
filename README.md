@@ -33,8 +33,32 @@ Our goal was to explore use cases leveraging the parent-child relationship of ER
 
 ## How it works
 
-With [ETHStacks.xyz](http://ETHStacks.xyz) you can create a master token, like a parent folder, and generate children TBAs inside of the master token using Tokenbound's ERC-6551 standard.
-Users can view, manage, and organize their assets from various accounts all into one place.
+[ETHStacks.xyz](http://ETHStacks.xyz) used an NFT Contract factory to deploy and NFT contract for each user. Each NFT token minted represents a `Stack`, a ERC-6551 token-bound account that can hold ERC20 and ERC721 tokens, and execute functions on other contracts.
+
+When s Stacks NFT contract is deployed, it also mints the master NFT stack, and deploys an ERC-6551 Account for the master or "root" Stack. All subsequent NFTs minted are "children" NFTs that are owned by this master tokenbound account. Each NFT has it own tokenbound account that hold assets, though it may not be deployed until the user wants to withraw any of the assets. Due to the couterfactual deterministic addresses, asssets can be sent to these addresses prior to deployment, and the user can be confident that only the only of the Stack NFT will ever be able to access them.
+
+While the potential is limitless, example included in this submission include:
+- transferring assets between Stacks
+- supplying assets to both Compound and Aave to earn yield (ie. "Savings Stacks")
+- borrowing assets from Aave (ie. "Loan Stacks")
+- using a Stack to send your spam assets
+- creating a Stack for high value assets and then sending the Stack to your cold wallet
+- adding a joint account holder who has equal access to the Stack's assets
+- adding a trusted social recovery address that can access the asset if you lose your private key
+- creating a Stack as a stealth address that you want to receive payment, without immediately being linked your main address
+- creating Stacks to act as NFT galleries
+- recycle your private keys periodically by sending your master Stack to a new wallet address -- only 1 transaction required!
+
+Contracts were deployed using Hardhat via Scaffold.eth, interfacing with already-deployed registry and account implementation contracts for ERC-6551 tokenbound accounts.
+
+The front-end is powered by React, Wagmi, Tailwind, Prisma, Sign-in with Ethereum, ConnectKit and Viem.
+
+User assets are pulled using Airstack endpoints.
+
+Unit tests were written using hardhat and ethers.js.
+
+All of the above was powered by caffeine.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
