@@ -12,7 +12,7 @@ import React from "react";
 import abiPath from "../utils/deployments/goerli/FinanceNFTFactory.json";
 import addresses from "../utils/deployments/goerli/addresses.json";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-const dockerNames = require('docker-names');
+//const dockerNames = require('docker-names');
 
 export function CreateStackButton() {
   const [tokenId, setTokenId] = React.useState("");
@@ -21,15 +21,16 @@ export function CreateStackButton() {
   //const [tokenId, setTokenId] = useState('')
   //const debouncedTokenId = useDebounce(tokenId)
   const { address } = useAccount();
+  const now = new Date();
   const { config, error } = usePrepareContractWrite({
     address: `0x${addresses.factoryAddress}`,
     abi: abiPath.abi,
     functionName: "createFinanceNFT",
     args: [
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      dockerNames.getRandomName(),
+      `Eth-Stacks-${now.toString()}`,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      dockerNames.getRandomName(),
+      `Eth-Stacks-${now.toString()}`,
       address,
       addresses.uri,
       addresses.registryAddress,
