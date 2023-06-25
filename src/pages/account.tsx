@@ -7,11 +7,13 @@ import Spacer from "~/components/Spacer";
 import { init, useQuery } from "@airstack/airstack-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import TokenCard from "~/components/Token";
 
 init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
 const DisplayNFTs = () => {
-  const query = `query GetAllNFTsOwnedByVitalik {
+  const query = `query GetAllNFTsOwnedByUser {
     TokenBalances(input: {filter: {owner: {_in: ["0xtay.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}) {
       TokenBalance {
         owner {
@@ -55,48 +57,27 @@ const DisplayNFTs = () => {
               return (
                 <div key={i}>
                   {nft.tokenNfts.contentValue.image !== null && (
-                    <div className="flex flex-col gap-2">
-                      <div className="relative aspect-[5/6] w-full overflow-hidden rounded-md">
-                        <Image
-                          src={nft.tokenNfts.contentValue.image.original}
-                          alt={nft.tokenNfts.address}
-                          fill
-                          className="h-full w-full object-cover"
-                        />
+                    <Link href={`/nft/${nft.tokenNfts.address}`}>
+                      <div className="flex flex-col gap-2">
+                        <div className="relative aspect-[5/6] w-full overflow-hidden rounded-md">
+                          <Image
+                            src={nft.tokenNfts.contentValue.image.original}
+                            alt={nft.tokenNfts.address}
+                            fill
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        <span className="font-bold">
+                          {nft.tokenNfts.metaData.name}
+                        </span>
                       </div>
-                      <span className="font-bold">
-                        {nft.tokenNfts.metaData.name}
-                      </span>
-                    </div>
+                    </Link>
                   )}
                 </div>
               );
             })}
         </div>
       )}
-    </div>
-  );
-};
-
-const TokenBalance = ({ amount, token }: { amount: any; token: string }) => {
-  const tokenPrice = 1800;
-  const amountInUSD = (amount * tokenPrice).toLocaleString("en-US");
-  return (
-    <div className="text-primary-content flex items-center gap-4 rounded-[0.25rem] bg-gray-100 px-2 py-1">
-      <div>
-        <Image
-          src={`/tokens/${token}.svg`}
-          alt={token}
-          width={16}
-          height={16}
-        />
-      </div>
-      <div className="flex flex-col">
-        <span className="font-bold">
-          {amount} {token}
-        </span>
-        <span className="text-sm opacity-60">${amountInUSD}</span>
-      </div>
     </div>
   );
 };
@@ -109,10 +90,7 @@ const DisplayERC20s = ({ address }: { address: `0x${string}` }) => {
   return (
     <div>
       <div className="flex items-center justify-center gap-8">
-        <TokenBalance
-          amount={ethBalance?.formatted}
-          token={ethBalance?.symbol}
-        />
+        <TokenCard amount={ethBalance?.formatted} token={ethBalance?.symbol} />
       </div>
     </div>
   );

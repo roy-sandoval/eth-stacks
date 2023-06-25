@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { BaseError } from 'viem'
+import { useState } from 'react';
+import { BaseError } from 'viem';
 import {
   useAccount,
   useContractWrite,
@@ -12,11 +12,12 @@ import activeChain from '~/utils/activeChain'
 import { useDebounce } from '../hooks/useDebounce'
 import { stringify } from '../utils/stringify'
 import Button from './Button'
+import React from 'react';
 
-export function WriteContractPrepared() {
+export function CreateStackButton() {
   
-  const abiPath = require(`../utils/deployments/${activeChain}/FinanceNFTFactory.json`);
-  const addresses = require(`../utils/deployments/${activeChain}/addresses.json`);
+  const abiPath = import(`../utils/deployments/${activeChain}/FinanceNFTFactory.json`);
+  const addresses = import(`../utils/deployments/${activeChain}/addresses.json`);
 
   //const [tokenId, setTokenId] = useState('')
   //const debouncedTokenId = useDebounce(tokenId)
@@ -36,7 +37,13 @@ export function WriteContractPrepared() {
 
   return (
     <>
-      <Button>Create Root</Button>
+      <button 
+  disabled={!write || isLoading}
+  onClick={() => write?.()}
+
+>
+  {isLoading ? "Creating Stack..." : "Create Stack"}
+  </button>
       {isLoading && <div>Creating...</div>}
       {isPending && <div>Created!</div>}
       {isError && <div>{(error as BaseError)?.shortMessage}</div>}
