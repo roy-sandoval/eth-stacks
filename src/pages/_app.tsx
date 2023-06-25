@@ -18,7 +18,7 @@ const config = createConfig(
 
     // Required
     appName: "Stacks",
-
+    autoConnect: false,
     // Optional
     appDescription: "All of your token bound accounts in one place",
     appUrl: "https://family.co", // your app's url

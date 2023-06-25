@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import Head from "next/head";
 import type { NextPage } from "next";
 import CopyableText from "~/components/CopyableText";
@@ -165,9 +167,10 @@ const Accounts = ({
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { mutate } = api.subdirectory.add.useMutation({
     onSuccess: () => {
-      ctx.subdirectory.getAll.invalidate();
+      void ctx.subdirectory.getAll.invalidate();
       setIsAddingAccount(false);
     },
   });
@@ -242,6 +245,10 @@ const Accounts = ({
           </div>
         </div>
       )}
+      <div className="mt-10 flex w-full items-center justify-center"></div>
+      <div className="mt-10 flex w-full items-center justify-center">
+        <CreateStackButton />
+      </div>
       <div className="mt-10 flex w-full items-center justify-center">
         {isAddingAccount ? (
           <div onClick={() => createStack()}>
@@ -253,7 +260,6 @@ const Accounts = ({
             onClick={() => setIsAddingAccount(!isAddingAccount)}
           >
             <Button>Add Stack</Button>
-            <CreateStackButton />
           </div>
         )}
       </div>

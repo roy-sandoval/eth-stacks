@@ -16,7 +16,6 @@ import Button from './Button'
 
 export function WriteContractPrepared() {
   
-  const abiPathAave = require(`../utils/deployments/${activeChain}/Pool.json`);
   const abiPath = require(`../utils/deployments/${activeChain}/TBA.json`);
   const addresses = require(`../utils/deployments/${activeChain}/addresses.json`);
 
@@ -25,18 +24,14 @@ export function WriteContractPrepared() {
   const { address } = useAccount();
 
   // Note: the tokens must already be in the TBA contract!!
-  const amt = "10000";  // 6 decimals for USDC!! -- TODO: get amount from UI form
-  const tokenAddress = addresses.aaveUSDC;
-  const txnData = encodeFunctionData({
-    abi: abiPathAave.abi,
-    functionName: 'supply',
-    args: [tokenAddress, amt, "0x0000000000000000000000000000000000000000", 0] // TODO: replace with TBA address
-  });
+  const executorAddress = "0x0000000000000000000000000000000000000000";  // TODO: get from user
+  const callers = [executorAddress];
+  const permissions = [true];
   const { config } = usePrepareContractWrite({
     address: "0x0000000000000000000000000000000000000000",  // TODO: need to get user's deployed TBA contract -- must be deployed for this one
     abi: abiPath.abi,
-    functionName: 'executeCall',
-    args: [addresses.aavePool, 0, txnData] 
+    functionName: 'setPermissions',
+    args: [callers, permissions] 
   });
   const { write, data, error, isLoading, isError } = useContractWrite(config)
   const {
@@ -47,9 +42,9 @@ export function WriteContractPrepared() {
 
   return (
     <>
-      <Button>Deposit</Button>
-      {isLoading && <div>Depositing...</div>}
-      {isPending && <div>Deposited!</div>}
+      <Button>Add User</Button>
+      {isLoading && <div>Adding...</div>}
+      {isPending && <div>Added!</div>}
       {isError && <div>{(error as BaseError)?.shortMessage}</div>}
     </>
   )
