@@ -14,7 +14,7 @@ init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
 const DisplayNFTs = () => {
   const query = `query GetAllNFTsOwnedByUser {
-    TokenBalances(input: {filter: {owner: {_in: ["0xtay.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}) {
+    TokenBalances(input: {filter: {owner: {_in: ["5256.eth"]}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: ethereum, limit: 10}) {
       TokenBalance {
         owner {
           addresses

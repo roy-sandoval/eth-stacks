@@ -1,7 +1,6 @@
 import { init, useQuery } from "@airstack/airstack-react";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
 import { useAccount } from "wagmi";
 import Button from "~/components/Button";
 import Header from "~/components/Header";
@@ -27,7 +26,7 @@ const NFT = () => {
   }
       `;
 
-  const { data, loading } = useQuery(query);
+  const { data } = useQuery(query);
 
   return (
     <div className="flex items-center gap-8">
