@@ -33,9 +33,8 @@ Our goal was to explore use cases leveraging the parent-child relationship of ER
 
 ## How it works
 
-With [ETHStacks.xyz](http://ETHStacks.xyz) you can mint a master token and generate independent child TBAs using TokenBound’s ERC-6551 standard. Parent NFTs minted through the dApp act as a master key that can control child TBAs represented as stacks in the interface. 
-
-Users can view and manage their accounts glance, assign tokens to stacks and interact with dApps as their TBA through the interface.
+With [ETHStacks.xyz](http://ETHStacks.xyz) you can create a master token, like a parent folder, and generate children TBAs inside of the master token using Tokenbound's ERC-6551 standard.
+Users can view, manage, and organize their assets from various accounts all into one place.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -43,18 +42,25 @@ Users can view and manage their accounts glance, assign tokens to stacks and int
 
 ## Tech Stack
 **Are you using any Ethereum developer tools for your project?**
+Wagmi, Viem, ConnectKit, Sign In With Ethereum
 
 **Which blockchain networks will your project interact with?**
+Polygon, Goerli
 
 **Which programming languages are you using in your project?**
+Typescript and Solidity
 
 **Are you using any web frameworks for your project?**
+Next.js
 
 **Are you using any databases for your project?**
+Railway
 
 **Are you using any design tools for your project?**
+Figma
 
 **Are there any other specific technologies, libraries, frameworks, or tools you're making heavy usage of don't fit into the categories above?**
+
 
 ## Prize Selection 
 
