@@ -5,79 +5,63 @@
 <br />
 <div align="center">
 
-  <h3 align="center">FRONTEND ETH Hackathon Template</h3>
+  <h3 align="center">ETHStacks.xyz</h3>
 
   <p align="center">
-    My starter for ETH Global hackathons!
+    Stack your bags with token bound accounts
   </p>
 </div>
 
+<!-- ETH Waterloo Submission -->
 
+## Short Description
+ETHStacks.xyz is an account management interface for token bound accounts (TBAs). Stack your assets in token bound accounts and manage them all through a simple interface. 
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+## About the project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+ETHStacks.xyz is an account management interface for token bound accounts (TBAs). By leveraging the properties of ERC-6551 tokens, ETHStacks allows you to create token bound accounts and manage them all through a simple interface. 
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+### Why ETHStacks.xyz?
+* Manage multiple token bound accounts through a simple interface
+* Stack assets within token bound accounts 
+* Interact with dApps and dynamic NFTs as your token bound accounts
+* Take advantage of the security, privacy, and capabilities of smart contract wallets
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Built With
-* Next.js
-* TRPC
-* TypeScript
-* Tailwind
-* RainbowKit
-* Viem
-* Wagmi
-
+Our goal was to explore use cases leveraging the parent-child relationship of ERC-6551 tokens, improve the existing wallet management user experience, and build a future-facing solution for managing assets and inventory of token bound accounts. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## How it works
 
+With [ETHStacks.xyz](http://ETHStacks.xyz) you can mint a master token and generate independent child TBAs using TokenBound’s ERC-6551 standard. Parent NFTs minted through the dApp act as a master key that can control child TBAs represented as stacks in the interface. 
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-### Prerequisites
-
-This project requires pnpm
-
-### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Clone the project
-2. Run `pnpm install`
-3. Create a .env with WalletConnect ID
-4. Run `pnpm dev`
+Users can view and manage their accounts glance, assign ERC-721 and ERC-1155 tokens to stacks, and interact with dApps as their TBA through the interface.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## How it was made
+
+## Tech Stack
+
+## Prize Selection 
+
+* [TokenBound](https://ethglobal.com/events/waterloo2023/prizes#tokenbound-and-erc-6551)
+* [Polygon](https://ethglobal.com/events/waterloo2023/prizes#polygon) 
+* [IPFS](https://ethglobal.com/events/waterloo2023/prizes#ipfs-filecoin-and-more)
+* [Compound](https://ethglobal.com/events/waterloo2023/prizes#compound-grants-program)
+* [Airstack](https://ethglobal.com/events/waterloo2023/prizes#airstack)
 
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+Contributors:
+* [Roy Sandoval, Product Designer](https://twitter.com/roysandoval_)
+* [Ryan MacArthur, Smart Contract Developer](https://twitter.com/maceip)
+* [Mark Carey, Full Stack Developer](https://twitter.com/mthacks)
+* [Taylan McRae-Yu, Product Manager](https://twitter.com/0xTAY_)
+
+Credits: 
+* [TokenBound ERC-6551](https://tokenbound.org)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
