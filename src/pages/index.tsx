@@ -14,7 +14,7 @@ import Spacer from "~/components/Spacer";
 import Divider from "~/components/Divider";
 import { api } from "~/utils/api";
 import Header from "~/components/Header";
-import { CreateStackButton } from "../components/createFinanceNFT";
+import { CreateStackButton } from "../components/CreateStackButton";
 import type { Subdirectories } from "@prisma/client";
 import {
   Types,
@@ -258,7 +258,7 @@ const Accounts = ({
             onClick={() => setIsAddingAccount(!isAddingAccount)}
           >
             <Button>Add Stack</Button>
-            <CeateStackButton/>
+            <CreateStackButton/>
           </div>
         )}
       </div>
