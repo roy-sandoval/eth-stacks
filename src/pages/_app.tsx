@@ -5,9 +5,11 @@ import { WagmiConfig, createConfig } from 'wagmi';
 import { ConnectKitProvider, type SIWESession } from 'connectkit';
 import { siweClient } from "@/utils/siweClient";
 import { getDefaultConfig } from "connectkit";
+import { goerli } from "viem/chains";
 
 const config = createConfig(
   getDefaultConfig({
+    chains: goerli,
     alchemyId: process.env.ALCHEMY_ID, // or infuraId
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
 
