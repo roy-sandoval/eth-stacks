@@ -167,48 +167,48 @@ const Accounts = ({
     address: factoryAddress,
     abi: [
       {
-        "inputs": [
+        inputs: [
           {
-            "internalType": "string",
-            "name": "_name",
-            "type": "string"
+            internalType: "string",
+            name: "_name",
+            type: "string",
           },
           {
-            "internalType": "string",
-            "name": "_symbol",
-            "type": "string"
+            internalType: "string",
+            name: "_symbol",
+            type: "string",
           },
           {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
+            internalType: "address",
+            name: "owner",
+            type: "address",
           },
           {
-            "internalType": "string",
-            "name": "uri",
-            "type": "string"
+            internalType: "string",
+            name: "uri",
+            type: "string",
           },
           {
-            "internalType": "address",
-            "name": "registry",
-            "type": "address"
+            internalType: "address",
+            name: "registry",
+            type: "address",
           },
           {
-            "internalType": "address",
-            "name": "implementation",
-            "type": "address"
-          }
+            internalType: "address",
+            name: "implementation",
+            type: "address",
+          },
         ],
-        "name": "createFinanceNFT",
-        "outputs": [
+        name: "createFinanceNFT",
+        outputs: [
           {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
+            internalType: "address",
+            name: "",
+            type: "address",
+          },
         ],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        stateMutability: "nonpayable",
+        type: "function",
       },
     ],
     functionName: "deploy",

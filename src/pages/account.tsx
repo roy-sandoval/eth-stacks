@@ -5,6 +5,8 @@ import Divider from "~/components/Divider";
 import Header from "~/components/Header";
 import Spacer from "~/components/Spacer";
 import { init, useQuery } from "@airstack/airstack-react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
@@ -30,11 +32,42 @@ const DisplayNFTs = () => {
   }
   `;
 
+  const [userNFTs, setUserNFTs] = useState();
   const { data, loading } = useQuery(query);
-  console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      setUserNFTs(data.TokenBalances.TokenBalance);
+    }
+    console.log(userNFTs);
+  }, [data, userNFTs]);
 
   return (
-    <div>{loading ? <p>Loading...</p> : <div>{JSON.stringify(data)}</div>}</div>
+    <div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="grid grid-cols-3">
+          {userNFTs &&
+            userNFTs.map((nft, i) => {
+              return (
+                <div key={i}>
+                  {nft.tokenNfts.contentValue.image !== null && (
+                    <div className="relative h-40 w-20 overflow-hidden">
+                      <Image
+                        src={nft.tokenNfts.contentValue.image.original}
+                        alt={nft.tokenNfts.address}
+                        fill
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+        </div>
+      )}
+    </div>
   );
 };
 

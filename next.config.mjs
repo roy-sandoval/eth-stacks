@@ -7,6 +7,15 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "assets.airstack.xyz",
+        port: "",
+      },
+    ],
+  },
 
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
