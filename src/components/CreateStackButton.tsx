@@ -6,47 +6,60 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi'
-import activeChain from '~/utils/activeChain'
-
-
-import { useDebounce } from '../hooks/useDebounce'
-import { stringify } from '../utils/stringify'
-import Button from './Button'
+import { useDebounce } from './useDebounce'
+//import activeChain from '~/utils/activeChain'
 import React from 'react';
+import abiPath from '../utils/deployments/goerli/FinanceNFTFactory.json';
+import addresses from  '../utils/deployments/goerli/addresses.json';
 
 export function CreateStackButton() {
-  
-  const abiPath = import(`../utils/deployments/${activeChain}/FinanceNFTFactory.json`);
-  const addresses = import(`../utils/deployments/${activeChain}/addresses.json`);
+  const [tokenId, setTokenId] = React.useState('')
+  const debouncedTokenId = useDebounce(tokenId)
+
+
 
   //const [tokenId, setTokenId] = useState('')
   //const debouncedTokenId = useDebounce(tokenId)
   const { address } = useAccount();
-  const { config } = usePrepareContractWrite({
-    address: addresses.factoryAddress,
+  const { config, error } = usePrepareContractWrite({
+    address: `0x${addresses.factoryAddress}`,
     abi: abiPath.abi,
     functionName: 'createFinanceNFT',
     args: ["ETH Stacks NFT", "STACK", address, addresses.uri , addresses.registryAddress, addresses.tbaImplementationAddress ]
   });
-  const { write, data, error, isLoading, isError } = useContractWrite(config)
-  const {
-    data: receipt,
-    isLoading: isPending,
-    isSuccess,
-  } = useWaitForTransaction({ hash: data?.hash })
+  const {data, write} = useContractWrite(config)
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  })
 
   return (
-    <>
-      <button 
-  disabled={!write || isLoading}
-  onClick={() => write?.()}
-
->
-  {isLoading ? "Creating Stack..." : "Create Stack"}
-  </button>
-      {isLoading && <div>Creating...</div>}
-      {isPending && <div>Created!</div>}
-      {isError && <div>{(error as BaseError)?.shortMessage}</div>}
-    </>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        write?.()
+      }}
+    >
+      <label for="tokenId">Token ID</label>
+      <input
+        id="tokenId"
+        onChange={(e) => setTokenId(e.target.value)}
+        placeholder="420"
+        value={tokenId}
+      />
+      <button  className="w-full rounded-full bg-black px-12 py-4 text-white" disabled={!write || isLoading}>
+        {isLoading ? 'Minting...' : 'Mint'}
+      </button>
+      {error && (
+        <div>An error occurred preparing the transaction: {error.message}</div>
+      )}
+      {isSuccess && (
+        <div>
+          Successfully minted your NFT!
+          <div>
+            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+          </div>
+        </div>
+      )}
+    </form>
   )
 }
