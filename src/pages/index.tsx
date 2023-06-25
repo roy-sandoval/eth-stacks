@@ -15,16 +15,7 @@ import Divider from "~/components/Divider";
 import { api } from "~/utils/api";
 import Header from "~/components/Header";
 import type { Subdirectories } from "@prisma/client";
-import {
-  Types,
-  Avatar,
-  useSIWE,
-  SIWEButton,
-  ChainIcon,
-  type SIWESession,
-  useChains,
-  useModal,
-} from "connectkit";
+import { SIWEButton, useChains, useModal } from "connectkit";
 
 import {
   useAccount,
@@ -35,15 +26,17 @@ import {
   useSignTypedData,
   usePrepareSendTransaction,
   useConnect,
-  useDisconnect,
 } from "wagmi";
 import Button from "~/components/Button";
+import Image from "next/image";
 
 const UserTag = () => {
   return (
     <div className="flex items-center gap-2">
-      <div>img</div>
-      <div>User</div>
+      <div>
+        <Image src="/user.png" height={32} width={32} alt="User" />
+      </div>
+      <div>0xtay.eth</div>
     </div>
   );
 };
@@ -51,6 +44,7 @@ const UserTag = () => {
 const AITag = () => {
   return (
     <div className="rounded-md border border-black px-2 py-1">
+      <Image src="ai.png" height={24} width={24} alt="AI" />
       <div>AI Powered</div>
     </div>
   );
@@ -59,7 +53,8 @@ const AITag = () => {
 const SponsorTag = () => {
   return (
     <div className="rounded-md bg-black px-2 py-1 text-white">
-      <div>Gasless</div>
+      <Image src="sponsor.png" height={24} width={24} alt="Sponsor" />
+      <div>Sponsored Gas</div>
     </div>
   );
 };
@@ -309,24 +304,7 @@ const Home: NextPage = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const { chain } = useNetwork();
-  const chains = useChains();
-
-  const { open, setOpen, openSIWE, openAbout } = useModal({
-    onConnect: () => {
-      console.log("onConnect Hook");
-    },
-    onDisconnect: () => {
-      console.log("onDisconnect Hook");
-    },
-  });
-  const { reset } = useConnect();
-  const { isConnected, isConnecting } = useAccount();
-  const { disconnect } = useDisconnect();
-  const handleDisconnect = () => {
-    disconnect();
-    reset();
-  };
+  const { isConnected } = useAccount();
 
   return (
     <>
