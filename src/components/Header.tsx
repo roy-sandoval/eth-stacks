@@ -7,8 +7,12 @@ import CopyableText from "./CopyableText";
 const Notifications = () => {
   return (
     <div>
-      <div>image</div>
-      <div>counter</div>
+      <Image
+        src="/notifications.png"
+        alt="Notifications"
+        width={40}
+        height={40}
+      />
     </div>
   );
 };
@@ -23,7 +27,7 @@ export const Header = ({
   const shortAddress = address ? truncateEthAddress(address) : "No address";
 
   const { data: ens } = useEnsName({
-    address: "0xA0Cf798816D4b9b9866b5330EEa46a18382f251e",
+    address: address,
   });
 
   const { data: ensAvatar } = useEnsAvatar({
