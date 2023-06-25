@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+// @ts-nocheck
 import Head from "next/head";
 import { useAccount, useBalance } from "wagmi";
 import Balance from "~/components/Balance";

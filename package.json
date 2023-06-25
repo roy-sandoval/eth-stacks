@@ -10,8 +10,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@next-auth/prisma-adapter": "^1.0.5",
     "@airstack/airstack-react": "^0.3.3",
+    "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.14.0",
     "@rainbow-me/rainbowkit": "^1.0.2",
     "@t3-oss/env-nextjs": "^0.3.1",
@@ -47,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
     "autoprefixer": "^10.4.14",
+    "docker-names": "^1.2.1",
     "eslint": "^8.40.0",
     "eslint-config-next": "^13.4.2",
     "postcss": "^8.4.21",

@@ -22,7 +22,6 @@ const config = createConfig(
     // Optional
     appDescription: "All of your token bound accounts in one place",
     appUrl: "https://family.co", // your app's url
-    autoConnect: false,
   })
 );
 /*

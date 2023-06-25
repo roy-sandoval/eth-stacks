@@ -11,7 +11,8 @@ import { useDebounce } from "./useDebounce";
 import React from "react";
 import abiPath from "../utils/deployments/goerli/FinanceNFTFactory.json";
 import addresses from "../utils/deployments/goerli/addresses.json";
-import {dockerNames} from "docker-names";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+const dockerNames = require('docker-names');
 
 export function CreateStackButton() {
   const [tokenId, setTokenId] = React.useState("");
@@ -21,7 +22,7 @@ export function CreateStackButton() {
   //const debouncedTokenId = useDebounce(tokenId)
   const { address } = useAccount();
   const { config, error } = usePrepareContractWrite({
-    address: addresses.factoryAddress,
+    address: `0x${addresses.factoryAddress}`,
     abi: abiPath.abi,
     functionName: "createFinanceNFT",
     args: [

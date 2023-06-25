@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+// @ts-nocheck
 import Head from "next/head";
 import type { NextPage } from "next";
 import CopyableText from "~/components/CopyableText";

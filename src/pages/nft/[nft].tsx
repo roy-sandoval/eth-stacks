@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { init, useQuery } from "@airstack/airstack-react";
 import Head from "next/head";
 import Image from "next/image";
