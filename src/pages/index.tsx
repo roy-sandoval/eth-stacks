@@ -1,6 +1,5 @@
 import Head from "next/head";
 import CopyableText from "~/components/CopyableText";
-import Header from "~/components/Header";
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -127,12 +126,11 @@ const Accounts = ({
   formState: FormValues;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
->>>>>>> main
   const { data: accounts } = api.subdirectory.getAll.useQuery();
   const factoryAddress = "0xA556719b7b297a7ba14ebC539Ad5360587858669";
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
-  const { isSignedIn, data } = useSIWE();
+  const { isSignedIn, signData } = useSIWE();
 
 
   const { mutate } = api.subdirectory.add.useMutation({
@@ -232,45 +230,6 @@ const Accounts = ({
 
 
 const EthStacks = () => {
-  const {
-    address,
-    connector,
-    isConnected,
-    isConnecting,
-    isDisconnected,
-    isReconnecting,
-  } = useAccount();
-
-  const { data: balanceData } = useBalance({ address });
-  const { chain } = useNetwork();
-  const { isSignedIn, signOut } = useSIWE({
-    onSignIn: (data?: SIWESession) => {
-      console.log('onSignIn', data);
-    },
-    onSignOut: () => {
-      console.log('onSignOut');
-    },
-  });
-// const Main = ({
-//   formState,
-//   handleFormChange,
-// }: {
-//   formState: FormValues;
-//   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-// }) => {
-//   const [isAddingAccount, setIsAddingAccount] = useState(false);
-//   return (
-//     <div>
-//       {isAddingAccount ? (
-
-//       ) : (
-//         <Accounts />
-//       )}
-//     </div>
-//   );
-// };
-
-const EthStacks = () => {
   const { address } = useAccount();
 
   const initialValues = {
@@ -308,7 +267,7 @@ const EthStacks = () => {
   );
 };
 
-export default function Home() {
+function Home() {
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
