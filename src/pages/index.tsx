@@ -327,9 +327,8 @@ const Home: NextPage = () => {
           {isConnected ? (
             <EthStacks />
           ) : (
-            <div>
-              {" "}
-              <h1 className="text-4xl font-bold">ETH Stacks</h1>
+            <div className="flex flex-col gap-4">
+              <Image src="/logo.png" height={206} width={98} alt="Eth Stacks" />
               <SIWEButton showSignOutButton />
             </div>
           )}
