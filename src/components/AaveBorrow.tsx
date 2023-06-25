@@ -25,12 +25,12 @@ export function WriteContractPrepared() {
   const { address } = useAccount();
 
   // Note: the tokens must already be in the TBA contract!!
-  const amt = "10000";  // 6 decimals for USDC!! -- TODO: get amount from UI form
-  const tokenAddress = addresses.aaveUSDC;
+  const amt = "5000";  // 6 decimals for USDC!! -- TODO: get amount from UI form
+  const tokenAddress = addresses.aaveDAI;
   const txnData = encodeFunctionData({
     abi: abiPathAave.abi,
-    functionName: 'supply',
-    args: [tokenAddress, amt, "0x0000000000000000000000000000000000000000", 0] // TODO: replace with TBA address
+    functionName: 'borrow',
+    args: [tokenAddress, amt, 2, 0, "0x0000000000000000000000000000000000000000"] // TODO: replace with TBA address
   });
   const { config } = usePrepareContractWrite({
     address: "0x0000000000000000000000000000000000000000",  // TODO: need to get user's deployed TBA contract -- must be deployed for this one
@@ -47,9 +47,9 @@ export function WriteContractPrepared() {
 
   return (
     <>
-      <Button>Deposit</Button>
-      {isLoading && <div>Depositing...</div>}
-      {isPending && <div>Deposited!</div>}
+      <Button>Borrow</Button>
+      {isLoading && <div>Borrowing...</div>}
+      {isPending && <div>Borrowed!</div>}
       {isError && <div>{(error as BaseError)?.shortMessage}</div>}
     </>
   )
