@@ -13,5 +13,6 @@
     "dUSDC": "0xFCCf3cAbbe80101232d343252614b6A3eE81C989",
     "aaveDAI": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
     "aDAI": "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
-    "dDAI": "0x8619d80FB0141ba7F184CbF22fd724116D9f7ffC"
+    "dDAI": "0x8619d80FB0141ba7F184CbF22fd724116D9f7ffC",
+    "uri": "ipfs://bafkreignwvrxe6ecfftnrsnwp7gob2yigrfixklm77luwuow4rceit2bue"
 }
