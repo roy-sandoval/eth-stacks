@@ -20,7 +20,7 @@ import { api } from "~/utils/api";
 import Header from "~/components/Header";
 import { CreateStackButton } from "../components/CreateStackButton";
 import type { Subdirectories } from "@prisma/client";
-import { SIWEButton, useChains, useModal } from "connectkit";
+import { SIWEButton } from "connectkit";
 
 import {
   useAccount,
@@ -320,7 +320,10 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>ETH Stacks</title>
-        <meta name="description" content="All of your token bound accounts in one place" />
+        <meta
+          name="description"
+          content="All of your token bound accounts in one place"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#f6f6f6]">

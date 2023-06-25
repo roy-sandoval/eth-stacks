@@ -1,4 +1,4 @@
-import { subdirectoriesRouter } from "~/server/api/routers/subdirectory";
+import { stacksRouter } from "~/server/api/routers/stacks";
 import { createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -7,7 +7,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  subdirectory: subdirectoriesRouter,
+  stacks: stacksRouter,
 });
 
 // export type definition of API
