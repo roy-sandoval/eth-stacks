@@ -15,9 +15,14 @@ const AccountView = () => {
   const { address } = useAccount();
   return (
     <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto  bg-white p-8">
-      <Header address={address} subdirectory="title" />
-      <Balance address={address} />
-      <DisplayNFTs />
+      {address && (
+        <>
+          {" "}
+          <Header address={address} subdirectory="title" />
+          <Balance address={address} />
+          <DisplayNFTs />
+        </>
+      )}
     </div>
   );
 };

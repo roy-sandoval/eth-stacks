@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Balance from "~/components/Balance";
 import { TokenboundClient } from "@tokenbound/sdk";
+import { api } from "~/utils/api";
+import type { Subdirectories } from "@prisma/client";
 
 const UserTag = () => {
   return (
@@ -57,7 +59,7 @@ const Divider = () => {
   return <div className="h-[1px] w-full bg-gray-200" />;
 };
 
-const AccountCard = ({ accountData }) => {
+const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
   //onClick run animation then navigate to account page
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -79,11 +81,7 @@ const AccountCard = ({ accountData }) => {
 
   return (
     <motion.div
-      className={`relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md p-4 transition-all  ${
-        accountData.id === 4
-          ? "hover:translate-y-[-20%]"
-          : "hover:translate-y-[-60%]"
-      }  ${accountData.gradient} card`}
+      className={`card relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md p-4 transition-all hover:translate-y-[-60%]`}
       layout
       data-open={open}
       data-fade={fade}
@@ -92,11 +90,11 @@ const AccountCard = ({ accountData }) => {
       <div className="flex w-full items-center justify-between">
         <div>
           <CopyableText>Address</CopyableText>
-          {accountData.type !== "normal" && <span>{accountData.type}</span>}
+          {accountData.type !== "NORMAL" && <span>{accountData.type}</span>}
         </div>
-        {accountData.tag === "ai" && <AITag />}
-        {accountData.tag === "sponsor" && <SponsorTag />}
-        {accountData.tag === "user" && <UserTag />}
+        {accountData.tag === "AI" && <AITag />}
+        {accountData.tag === "SPONSOR" && <SponsorTag />}
+        {accountData.tag === "USER" && <UserTag />}
       </div>
       <div
         className="flex w-full items-center justify-between"
@@ -113,75 +111,47 @@ const AccountCard = ({ accountData }) => {
 };
 
 const Accounts = () => {
-  const accounts = [
-    {
-      id: 1,
-      address: "0x123",
-      tag: "sponsor",
-      type: "normal",
-      title: "My NFTs",
-      icon: "🔥",
-      gradient:
-        "bg-gradient-to-b from-[rgba(234,8,184,1)] to-[rgba(255,201,243,1)]",
-    },
-    {
-      id: 2,
-      address: "0x123",
-      tag: "ai",
-      type: "normal",
-      title: "My NFTs",
-      icon: "🔥",
-      gradient:
-        "bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)]",
-    },
-    {
-      id: 3,
-      address: "0x123",
-      tag: "user",
-      type: "joint account",
-      title: "My NFTs",
-      icon: "🔥",
-      gradient:
-        "bg-gradient-to-b from-[rgba(234,198,8,1)] to-[rgba(255,237,201,1)]",
-    },
-    {
-      id: 4,
-      address: "0x123",
-      tag: "none",
-      type: "normal",
-      title: "My NFTs",
-      icon: "🔥",
-      gradient:
-        "bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)]",
-    },
+  const { data: accounts } = api.subdirectory.getAll.useQuery();
+  const gradients = [
+    "bg-gradient-to-b from-[rgba(234,8,184,1)] to-[rgba(255,201,243,1)]",
+    "bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)]",
+    "bg-gradient-to-b from-[rgba(234,198,8,1)] to-[rgba(255,237,201,1)]",
+    "bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)]",
   ];
 
   const { data: walletClient } = useWalletClient();
 
-  const tokenboundClient = new TokenboundClient({ walletClient, chainId: 1 });
-
   const nftContract = "0x3f74F59fcD89c08CB0a29a08042ccd84E26F624D";
 
   function handleCreateAccount() {
-    const preparedAccount = tokenboundClient.getAccount({
-      tokenContract: nftContract,
-      tokenId: "0",
-    });
+    if (walletClient) {
+      const tokenboundClient = new TokenboundClient({
+        walletClient,
+        chainId: 1,
+      });
 
-    console.log(preparedAccount);
+      const preparedAccount = tokenboundClient.getAccount({
+        tokenContract: nftContract,
+        tokenId: "0",
+      });
+
+      console.log(preparedAccount);
+    }
   }
 
   return (
     <div className="flex w-full flex-col items-center">
       <div className="flex flex-col gap-10">
-        {accounts.map((account) => (
-          <div
-            key={account.id}
-            className={`relative ${account.id !== 1 ? "mt-[-12rem]" : "mt-0"}`}
-          >
-            <AccountCard accountData={account} />
-          </div>
-        ))}
+        {accounts &&
+          accounts.map((account) => (
+            <div
+              key={account.id}
+              className={`"mt-[-12rem]"
+                relative`}
+            >
+              <AccountCard accountData={account} />
+            </div>
+          ))}
         <div onClick={() => handleCreateAccount()}>
           <Button>Add Account</Button>
         </div>
@@ -194,13 +164,17 @@ const EthStacks = () => {
   const { address } = useAccount();
   return (
     <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto  bg-white p-8">
-      <Header address={address} />
-      <Spacer height={2} />
-      <Balance address={address} />
-      <Spacer height={1.5} />
-      <Divider />
-      <Spacer height={2.5} />
-      <Accounts />
+      {address && (
+        <>
+          <Header address={address} />
+          <Spacer height={2} />
+          <Balance address={address} />
+          <Spacer height={1.5} />
+          <Divider />
+          <Spacer height={2.5} />
+          <Accounts />
+        </>
+      )}
     </div>
   );
 };
