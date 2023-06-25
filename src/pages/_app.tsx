@@ -5,11 +5,13 @@ import { WagmiConfig, createConfig } from 'wagmi';
 import { ConnectKitProvider, type SIWESession } from 'connectkit';
 import { siweClient } from "@/utils/siweClient";
 import { getDefaultConfig } from "connectkit";
-import { goerli } from "viem/chains";
+
+import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
+const chains = [mainnet, polygon, optimism, arbitrum];
 
 const config = createConfig(
   getDefaultConfig({
-    chains: goerli,
+    chains,
     alchemyId: process.env.ALCHEMY_ID, // or infuraId
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
 
@@ -93,3 +95,4 @@ export default api.withTRPC(MyApp);
   );
 };
 */
+

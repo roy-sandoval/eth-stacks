@@ -1,4 +1,5 @@
 import Head from "next/head";
+import type { NextPage } from 'next';
 import CopyableText from "~/components/CopyableText";
 import {
   useContractWrite,
@@ -12,6 +13,7 @@ import Balance from "~/components/Balance";
 import Spacer from "~/components/Spacer";
 import Divider from "~/components/Divider";
 import { api } from "~/utils/api";
+import Header from "~/components/Header";
 import type { Subdirectories } from "@prisma/client";
 import {
   Types,
@@ -267,7 +269,7 @@ const EthStacks = () => {
   );
 };
 
-function Home() {
+const Home: NextPage = () => {
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -314,3 +316,5 @@ function Home() {
     </>
   );
 }
+
+export default Home;
