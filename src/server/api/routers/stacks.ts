@@ -1,24 +1,28 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const subdirectoriesRouter = createTRPCRouter({
+export const stacksRouter = createTRPCRouter({
   add: publicProcedure
     .input(
       z.object({
         title: z.string(),
         icon: z.string().emoji("Only emojis allowed").max(4),
+        address: z.string(),
+        eoa: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.subdirectories.create({
+      return ctx.prisma.stacks.create({
         data: {
           title: input.title,
           icon: input.icon,
-          address: "0x124",
+          address: input.address,
+          isRoot: false,
+          eoa: input.eoa,
         },
       });
     }),
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.subdirectories.findMany();
+    return ctx.prisma.stacks.findMany();
   }),
 });

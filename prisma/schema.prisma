@@ -10,15 +10,18 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Subdirectories {
+model Stacks {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     address   String
-    tag    Tag  @default(NONE)
+    eoa String
     title String
-    type  Type    @default(NORMAL)
     icon String
+    isRoot Boolean
+    tag    Tag  @default(NONE)
+    type  Type    @default(NORMAL)
+
 }
 
 enum Type {

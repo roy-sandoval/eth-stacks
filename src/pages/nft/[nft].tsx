@@ -5,6 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import Button from "~/components/Button";
+import Contact from "~/components/Contact";
 import Header from "~/components/Header";
 import Spacer from "~/components/Spacer";
 import TokenCard from "~/components/Token";
@@ -127,10 +128,11 @@ export default function NFTPage() {
         <meta name="description" content="All of your token bound accounts in one place" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-300">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#f6f6f6]">
         <div className="relative flex h-full w-full items-center justify-center ">
           <NFTView />
         </div>
+        <Contact />
       </main>
     </>
   );

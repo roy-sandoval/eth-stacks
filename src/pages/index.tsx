@@ -21,7 +21,7 @@ import { api } from "~/utils/api";
 import Header from "~/components/Header";
 import { CreateStackButton } from "../components/CreateStackButton";
 import type { Subdirectories } from "@prisma/client";
-import { SIWEButton, useChains, useModal } from "connectkit";
+import { SIWEButton } from "connectkit";
 
 import {
   useAccount,
@@ -35,6 +35,7 @@ import {
 } from "wagmi";
 import Button from "~/components/Button";
 import Image from "next/image";
+import Contact from "~/components/Contact";
 
 const UserTag = () => {
   return (
@@ -327,7 +328,10 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>ETH Stacks</title>
-        <meta name="description" content="All of your token bound accounts in one place" />
+        <meta
+          name="description"
+          content="All of your token bound accounts in one place"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-200">
@@ -341,6 +345,7 @@ const Home: NextPage = () => {
             </div>
           )}
         </div>
+        <Contact />
       </main>
     </>
   );

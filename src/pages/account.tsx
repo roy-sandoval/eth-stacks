@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import TokenCard from "~/components/Token";
+import Contact from "~/components/Contact";
 
 init(process.env.AIRSTACK_API_KEY || "4cc56fba40604ef3b4bcb0ae34784293");
 
@@ -129,10 +130,11 @@ export default function Account() {
         <meta name="description" content="All of your token bound accounts in one place" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-300">
+      <main className="relative flex min-h-screen flex-col items-center justify-center gap-4 bg-[#f6f6f6]">
         <div className="relative flex h-full w-full items-center justify-center ">
           <AccountView />
         </div>
+        <Contact />
       </main>
     </>
   );
