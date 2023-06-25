@@ -5,12 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@next-auth/prisma-adapter':
-    specifier: ^1.0.5
-    version: 1.0.5(@prisma/client@4.14.0)(next-auth@4.20.1)
   '@airstack/airstack-react':
     specifier: ^0.3.3
     version: 0.3.3(react-dom@18.2.0)(react@18.2.0)
+  '@next-auth/prisma-adapter':
+    specifier: ^1.0.5
+    version: 1.0.5(@prisma/client@4.14.0)(next-auth@4.20.1)
   '@prisma/client':
     specifier: ^4.14.0
     version: 4.14.0(prisma@4.14.0)
@@ -143,7 +143,17 @@ packages:
     resolution: {integrity: sha512-iowxq3U30sghZotgl4s/oJRci6WPBfNO5YYgk2cIOMCHr3LeGPcsZjCEr+33Q4N+oV3OABDAtA+pyvWjbvBifQ==}
     dev: false
 
-<<<<<<< HEAD
+  /@airstack/airstack-react@0.3.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-gX50ImokZ+z9YyH0wyzB0QersGIlPr3YYCwsBqhqFTEPeuBxBbHZh9VNEAdyslKMXDZ04U97mH0p1cXKhhxMag==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      graphql: 16.6.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
     engines: {node: '>=6.0.0'}
@@ -1481,17 +1491,6 @@ packages:
 
   /@babel/regjsgen@0.8.0:
     resolution: {integrity: sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==}
-=======
-  /@airstack/airstack-react@0.3.3(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-gX50ImokZ+z9YyH0wyzB0QersGIlPr3YYCwsBqhqFTEPeuBxBbHZh9VNEAdyslKMXDZ04U97mH0p1cXKhhxMag==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      graphql: 16.6.0
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
->>>>>>> main
     dev: false
 
   /@babel/runtime@7.22.5:
