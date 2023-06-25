@@ -6,8 +6,8 @@ import { ConnectKitProvider, type SIWESession } from 'connectkit';
 import { siweClient } from "@/utils/siweClient";
 import { getDefaultConfig } from "connectkit";
 
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
-const chains = [mainnet, polygon, optimism, arbitrum];
+import { goerli, polygonMumbai, gnosisChiado } from "wagmi/chains";
+const chains = [goerli, polygonMumbai, gnosisChiado];
 
 const config = createConfig(
   getDefaultConfig({
