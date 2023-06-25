@@ -44,8 +44,8 @@ const UserTag = () => {
 
 const AITag = () => {
   return (
-    <div className="rounded-md border border-black px-2 py-1">
-      <Image src="ai.png" height={24} width={24} alt="AI" />
+    <div className="flex gap-2 rounded-md border border-black px-2 py-1">
+      <Image src="/ai.png" height={24} width={24} alt="AI" />
       <div>AI Powered</div>
     </div>
   );
@@ -54,7 +54,7 @@ const AITag = () => {
 const SponsorTag = () => {
   return (
     <div className="rounded-md bg-black px-2 py-1 text-white">
-      <Image src="sponsor.png" height={24} width={24} alt="Sponsor" />
+      <Image src="/sponsor.png" height={24} width={24} alt="Sponsor" />
       <div>Sponsored Gas</div>
     </div>
   );
@@ -132,7 +132,7 @@ const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
     >
       <div className="flex w-full items-center justify-between">
         <div>
-          <CopyableText>Address</CopyableText>
+          <CopyableText>{accountData.address}</CopyableText>
           {accountData.type !== "NORMAL" && <span>{accountData.type}</span>}
         </div>
         {accountData.tag === "AI" && <AITag />}
@@ -253,7 +253,7 @@ const Accounts = ({
             onClick={() => setIsAddingAccount(!isAddingAccount)}
           >
             <Button>Add Stack</Button>
-            <CreateStackButton/>
+            <CreateStackButton />
           </div>
         )}
       </div>
