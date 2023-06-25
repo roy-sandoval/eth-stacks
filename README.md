@@ -25,9 +25,9 @@ ETHStacks.xyz is an account management interface for token bound accounts (TBAs)
 * Manage multiple token bound accounts through a simple interface
 * Stack assets within token bound accounts 
 * Interact with dApps and dynamic NFTs as your token bound accounts
-* Take advantage of the security, privacy, and capabilities of smart contract wallets
+* Take advantage of the security, privacy and capabilities of smart contract wallets
 
-Our goal was to explore use cases leveraging the parent-child relationship of ERC-6551 tokens, improve the existing wallet management user experience, and build a future-facing solution for managing assets and inventory of token bound accounts. 
+Our goal was to explore use cases leveraging the parent-child relationship of ERC-6551 tokens, improve the existing wallet management user experience and build a future-facing solution for managing assets and inventory of token bound accounts. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -35,13 +35,26 @@ Our goal was to explore use cases leveraging the parent-child relationship of ER
 
 With [ETHStacks.xyz](http://ETHStacks.xyz) you can mint a master token and generate independent child TBAs using TokenBound’s ERC-6551 standard. Parent NFTs minted through the dApp act as a master key that can control child TBAs represented as stacks in the interface. 
 
-Users can view and manage their accounts glance, assign ERC-721 and ERC-1155 tokens to stacks, and interact with dApps as their TBA through the interface.
+Users can view and manage their accounts glance, assign tokens to stacks and interact with dApps as their TBA through the interface.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## How it was made
 
 ## Tech Stack
+**Are you using any Ethereum developer tools for your project?**
+
+**Which blockchain networks will your project interact with?**
+
+**Which programming languages are you using in your project?**
+
+**Are you using any web frameworks for your project?**
+
+**Are you using any databases for your project?**
+
+**Are you using any design tools for your project?**
+
+**Are there any other specific technologies, libraries, frameworks, or tools you're making heavy usage of don't fit into the categories above?**
 
 ## Prize Selection 
 
