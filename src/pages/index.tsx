@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -314,7 +315,14 @@ const Home: NextPage = () => {
   useEffect(() => setMounted(true), []);
 
   const { isConnected } = useAccount();
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const img = require("../../public/tile.png");
 
+  const styling = {
+    backgroundImage: `url('./logo.png')`,
+    width:"100%",
+    height:"100%"
+}
   return (
     <>
       <Head>
@@ -322,14 +330,14 @@ const Home: NextPage = () => {
         <meta name="description" content="All of your token bound accounts in one place" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-300">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-200">
         <div className="relative flex h-full w-full items-center justify-center ">
           {isConnected ? (
             <EthStacks />
           ) : (
             <div className="flex flex-col gap-4">
-              <Image src="/logo.png" height={206} width={98} alt="Eth Stacks" />
-              <SIWEButton showSignOutButton />
+            <Image src="/logo.png" height={206} width={98} alt="Eth Stacks" />
+              <SIWEButton     showSignOutButton />
             </div>
           )}
         </div>

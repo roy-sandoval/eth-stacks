@@ -43,7 +43,8 @@ function App({ Component, pageProps }: AppProps) {
         console.log("onSignOut Provider");
       }}
     >
-      <ConnectKitProvider
+      <ConnectKitProvider theme="rounded"
+
         onConnect={(data) => {
           console.log("onConnect Provider", data);
         }}
