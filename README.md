@@ -33,7 +33,7 @@ Our goal was to explore use cases leveraging the parent-child relationship of ER
 
 ## How it works
 
-With [ETHStacks.xyz](http://ETHStacks.xyz) you can mint a master token and generate independent child TBAs using TokenBound’s ERC-6551 standard. Parent NFTs minted through the dApp act as a master key that can control child TBAs represented as stacks in the interfac. 
+With [ETHStacks.xyz](http://ETHStacks.xyz) you can mint a master token and generate independent child TBAs using TokenBound’s ERC-6551 standard. Parent NFTs minted through the dApp act as a master key that can control child TBAs represented as stacks in the interface. 
 
 Users can view and manage their accounts glance, assign ERC-721 and ERC-1155 tokens to stacks, and interact with dApps as their TBA through the interface.
 
