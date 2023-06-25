@@ -1,0 +1,18 @@
+{
+    "factoryAddress": "",
+    "registryAddress": "0x02101dfB77FDE026414827Fdc604ddAF224F0921",
+    "tbaImplementationAddress": "0x2D25602551487C3f3354dD80D76D54383A243358",
+    "wethAddress": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+    "compoundWethAddress": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+    "compoundUsdcAddress": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "cWETHv3": "",
+    "cUSDCv3": "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
+    "aavePool": "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
+    "aaveUSDC": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "aUSDC": "0x625E7708f30cA75bfd92586e17077590C60eb4cD",
+    "dUSDC": "0xFCCf3cAbbe80101232d343252614b6A3eE81C989",
+    "aaveDAI": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+    "aDAI": "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
+    "dDAI": "0x8619d80FB0141ba7F184CbF22fd724116D9f7ffC",
+    "uri": "ipfs://bafkreignwvrxe6ecfftnrsnwp7gob2yigrfixklm77luwuow4rceit2bue"
+}
