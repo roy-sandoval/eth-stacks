@@ -1,8 +1,7 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Head from "next/head";
 import CopyableText from "~/components/CopyableText";
 import Header from "~/components/Header";
-import { useAccount, useWalletClient } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -10,6 +9,29 @@ import Balance from "~/components/Balance";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { api } from "~/utils/api";
 import type { Subdirectories } from "@prisma/client";
+import {
+  Types,
+  ConnectKitButton,
+  Avatar,
+  SIWEButton,
+  ChainIcon,
+  type SIWESession,
+  useChains,
+  useModal,
+  useSIWE,
+} from 'connectkit';
+
+import {
+  useAccount,
+  useBalance,
+  useSendTransaction,
+  useNetwork,
+  useSignMessage,
+  useSignTypedData,
+  usePrepareSendTransaction,
+  useConnect,
+  useDisconnect,
+} from 'wagmi';
 
 const UserTag = () => {
   return (
@@ -62,6 +84,10 @@ const Divider = () => {
 const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
   //onClick run animation then navigate to account page
   const router = useRouter();
+
+
+  if (status !== "authenticated") return null;
+
   const [open, setOpen] = useState(false);
   const [fade, setFade] = useState(false);
 
@@ -111,6 +137,7 @@ const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
 };
 
 const Accounts = () => {
+  const { isSignedIn, data } = useSIWE();
   const { data: accounts } = api.subdirectory.getAll.useQuery();
   const gradients = [
     "bg-gradient-to-b from-[rgba(234,8,184,1)] to-[rgba(255,201,243,1)]",
@@ -142,7 +169,8 @@ const Accounts = () => {
   return (
     <div className="flex w-full flex-col items-center">
       <div className="flex flex-col gap-10">
-        {accounts &&
+      <SIWEButton showSignOutButton />
+             {accounts &&
           accounts.map((account) => (
             <div
               key={account.id}
@@ -160,8 +188,28 @@ const Accounts = () => {
   );
 };
 
+
 const EthStacks = () => {
-  const { address } = useAccount();
+  const {
+    address,
+    connector,
+    isConnected,
+    isConnecting,
+    isDisconnected,
+    isReconnecting,
+  } = useAccount();
+
+  const { data: balanceData } = useBalance({ address });
+  const { chain } = useNetwork();
+  const { isSignedIn, signOut } = useSIWE({
+    onSignIn: (data?: SIWESession) => {
+      console.log('onSignIn', data);
+    },
+    onSignOut: () => {
+      console.log('onSignOut');
+    },
+  });
+
   return (
     <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto  bg-white p-8">
       {address && (
@@ -180,7 +228,28 @@ const EthStacks = () => {
 };
 
 export default function Home() {
-  const { isConnected } = useAccount();
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const { chain } = useNetwork();
+  const chains = useChains();
+
+  const { open, setOpen, openSIWE, openAbout } = useModal({
+    onConnect: () => {
+      console.log('onConnect Hook');
+    },
+    onDisconnect: () => {
+      console.log('onDisconnect Hook');
+    },
+  });
+  const { reset } = useConnect();
+  const { isConnected, isConnecting } = useAccount();
+  const { disconnect } = useDisconnect();
+  const handleDisconnect = () => {
+    disconnect();
+    reset();
+  };
 
   return (
     <>
@@ -197,8 +266,8 @@ export default function Home() {
             <div>
               {" "}
               <h1 className="text-4xl font-bold">ETH Stacks</h1>
-              <ConnectButton />
-            </div>
+              <SIWEButton showSignOutButton />
+                                        </div>
           )}
         </div>
       </main>
