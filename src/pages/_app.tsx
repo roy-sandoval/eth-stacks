@@ -14,7 +14,7 @@ const config = createConfig(
   getDefaultConfig({
     chains,
     alchemyId: process.env.ALCHEMY_ID, // or infuraId
-    walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
+    walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID || "",
 
     // Required
     appName: "Stacks",
@@ -22,6 +22,7 @@ const config = createConfig(
     // Optional
     appDescription: "All of your token bound accounts in one place",
     appUrl: "https://family.co", // your app's url
+    autoConnect: false,
   })
 );
 /*
