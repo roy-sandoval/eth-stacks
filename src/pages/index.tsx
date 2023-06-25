@@ -316,8 +316,6 @@ const Home: NextPage = () => {
   useEffect(() => setMounted(true), []);
 
   const { isConnected } = useAccount();
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const img = require("../../public/tile.png");
 
   const styling = {
     backgroundImage: `url('./logo.png')`,
