@@ -11,6 +11,7 @@ import { useDebounce } from "./useDebounce";
 import React from "react";
 import abiPath from "../utils/deployments/goerli/FinanceNFTFactory.json";
 import addresses from "../utils/deployments/goerli/addresses.json";
+import {dockerNames} from "docker-names";
 
 export function CreateStackButton() {
   const [tokenId, setTokenId] = React.useState("");
@@ -24,8 +25,10 @@ export function CreateStackButton() {
     abi: abiPath.abi,
     functionName: "createFinanceNFT",
     args: [
-      "ETH Stacks NFT",
-      "STACK",
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      dockerNames.getRandomName(),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      dockerNames.getRandomName(),
       address,
       addresses.uri,
       addresses.registryAddress,
