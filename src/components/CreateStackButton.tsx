@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BaseError } from "viem";
 import {
   useAccount,
@@ -24,7 +24,7 @@ export function CreateStackButton() {
     abi: abiPath.abi,
     functionName: "createFinanceNFT",
     args: [
-      "ETH Stacks NFT",
+      "ETH Sta",
       "STACK",
       address,
       addresses.uri,
@@ -33,9 +33,17 @@ export function CreateStackButton() {
     ],
   });
   const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const {
+    data: txn,
+    isLoading,
+    isSuccess,
+  } = useWaitForTransaction({
     hash: data?.hash,
   });
+
+  useEffect(() => {
+    console.log(txn);
+  }, [txn]);
 
   return (
     <div>
@@ -45,11 +53,8 @@ export function CreateStackButton() {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
         onClick={async () => write?.()}
       >
-        {isLoading ? "Minting..." : "Mint"}
+        {isLoading ? "Creating..." : "Create account"}
       </button>
-      {error && (
-        <div>An error occurred preparing the transaction: {error.message}</div>
-      )}
       {isSuccess && (
         <div>
           Successfully minted your NFT!

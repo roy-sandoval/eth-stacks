@@ -32,6 +32,7 @@ import {
 } from "wagmi";
 import Button from "~/components/Button";
 import Image from "next/image";
+import { CreateAccount } from "~/components/createAccount";
 
 const UserTag = () => {
   return (
@@ -166,6 +167,7 @@ const Accounts = ({
   const factoryAddress = "0xA556719b7b297a7ba14ebC539Ad5360587858669";
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
+  const [firstAccount, setFirstAccount] = useState(true);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { mutate } = api.subdirectory.add.useMutation({
@@ -246,13 +248,12 @@ const Accounts = ({
         </div>
       )}
       <div className="mt-10 flex w-full items-center justify-center"></div>
-      <div className="mt-10 flex w-full items-center justify-center">
-        <CreateStackButton />
-      </div>
+
       <div className="mt-10 flex w-full items-center justify-center">
         {isAddingAccount ? (
-          <div onClick={() => createStack()}>
-            <Button>Save Stack</Button>
+          <div>
+            <CreateAccount />
+            <div onClick={() => createStack()}>Save</div>
           </div>
         ) : (
           <div
