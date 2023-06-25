@@ -1,14 +1,25 @@
 import Head from "next/head";
 import CopyableText from "~/components/CopyableText";
 import Header from "~/components/Header";
+<<<<<<< HEAD
 import { useWalletClient } from "wagmi";
+=======
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+>>>>>>> main
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import Balance from "~/components/Balance";
-import { TokenboundClient } from "@tokenbound/sdk";
+import Spacer from "~/components/Spacer";
+import Divider from "~/components/Divider";
 import { api } from "~/utils/api";
 import type { Subdirectories } from "@prisma/client";
+<<<<<<< HEAD
 import {
   Types,
   ConnectKitButton,
@@ -32,6 +43,9 @@ import {
   useConnect,
   useDisconnect,
 } from 'wagmi';
+=======
+import Button from "~/components/Button";
+>>>>>>> main
 
 const UserTag = () => {
   return (
@@ -58,31 +72,7 @@ const SponsorTag = () => {
   );
 };
 
-const Button = ({
-  icon,
-  children,
-}: {
-  icon?: any;
-  children: React.ReactNode;
-}) => {
-  return (
-    <button className="rounded-full bg-black px-12 py-5 text-white">
-      {icon && <div>{icon}</div>}
-      <span className="leading-none">{children}</span>
-    </button>
-  );
-};
-
-const Spacer = ({ height }: { height: number }) => {
-  return <div style={{ height: `${height}rem` }} />;
-};
-
-const Divider = () => {
-  return <div className="h-[1px] w-full bg-gray-200" />;
-};
-
 const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
-  //onClick run animation then navigate to account page
   const router = useRouter();
 
 
@@ -107,11 +97,12 @@ const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
 
   return (
     <motion.div
-      className={`card relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between rounded-md p-4 transition-all hover:translate-y-[-60%]`}
+      className={`card relative flex h-[14rem] w-[26rem] cursor-pointer flex-col justify-between p-4  `}
       layout
       data-open={open}
       data-fade={fade}
       transition={{ duration: 0.5 }}
+      onClick={() => toggleSwitch}
     >
       <div className="flex w-full items-center justify-between">
         <div>
@@ -136,9 +127,101 @@ const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
   );
 };
 
+<<<<<<< HEAD
 const Accounts = () => {
   const { isSignedIn, data } = useSIWE();
+=======
+interface FormValues {
+  label: string;
+  icon: string;
+}
+
+const AddAccount = ({
+  formState,
+  handleFormChange,
+}: {
+  formState: FormValues;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return (
+    <div className="flex items-center justify-center">
+      <div className="relative  w-[36rem] rounded-lg bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)] p-4  ">
+        {/* <div className="absolute top-[-10px] -z-10 h-full w-full rounded-lg bg-pink-500 content-['']" /> */}
+        <span className="font-beni text-[6rem] leading-none text-white">
+          Create A Stack
+        </span>
+        <div className="mt-4 flex flex-col gap-4">
+          <input
+            type="text"
+            name="label"
+            value={formState.label}
+            onChange={handleFormChange}
+            className="rounded-md border border-black p-2"
+            placeholder="Title"
+          />
+          <input
+            type="text"
+            name="icon"
+            value={formState.icon}
+            onChange={handleFormChange}
+            className="mb-8 rounded-md border border-black p-2"
+            placeholder="Choose an emoji"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Accounts = ({
+  formState,
+  handleFormChange,
+}: {
+  formState: FormValues;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+>>>>>>> main
   const { data: accounts } = api.subdirectory.getAll.useQuery();
+  const factoryAddress = "0xA556719b7b297a7ba14ebC539Ad5360587858669";
+  const [isAddingAccount, setIsAddingAccount] = useState(false);
+  const ctx = api.useContext();
+
+  const { mutate } = api.subdirectory.add.useMutation({
+    onSuccess: () => {
+      ctx.subdirectory.getAll.invalidate();
+      setIsAddingAccount(false);
+    },
+  });
+
+  const createStack = () => {
+    console.log("Creating stack");
+    if (formState.label !== "" && formState.icon !== "") {
+      console.log("Working on it");
+      mutate({ title: formState.label, icon: formState.icon });
+    }
+  };
+
+  const { config } = usePrepareContractWrite({
+    address: factoryAddress,
+    abi: [
+      {
+        name: "createFinanceNFT",
+        type: "function",
+        stateMutability: "nonpayable",
+        inputs: [],
+        outputs: [],
+      },
+    ],
+    functionName: "deploy",
+    value: BigInt(0),
+  });
+
+  const { data, write } = useContractWrite(config);
+
+  const { isSuccess, isLoading } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
   const gradients = [
     "bg-gradient-to-b from-[rgba(234,8,184,1)] to-[rgba(255,201,243,1)]",
     "bg-gradient-to-b from-[rgba(8,30,234,1)] to-[rgba(201,206,255,1)]",
@@ -146,27 +229,8 @@ const Accounts = () => {
     "bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)]",
   ];
 
-  const { data: walletClient } = useWalletClient();
-
-  const nftContract = "0x3f74F59fcD89c08CB0a29a08042ccd84E26F624D";
-
-  function handleCreateAccount() {
-    if (walletClient) {
-      const tokenboundClient = new TokenboundClient({
-        walletClient,
-        chainId: 1,
-      });
-
-      const preparedAccount = tokenboundClient.getAccount({
-        tokenContract: nftContract,
-        tokenId: "0",
-      });
-
-      console.log(preparedAccount);
-    }
-  }
-
   return (
+<<<<<<< HEAD
     <div className="flex w-full flex-col items-center">
       <div className="flex flex-col gap-10">
       <SIWEButton showSignOutButton />
@@ -182,9 +246,55 @@ const Accounts = () => {
           ))}
         <div onClick={() => handleCreateAccount()}>
           <Button>Add Account</Button>
+=======
+    <>
+      {isAddingAccount ? (
+        <div className="flex flex-col items-end gap-4">
+          <span
+            className="cursor-pointer hover:underline"
+            onClick={() => setIsAddingAccount(!isAddingAccount)}
+          >
+            Cancel
+          </span>
+          <AddAccount
+            formState={formState}
+            handleFormChange={handleFormChange}
+          />
+>>>>>>> main
         </div>
+      ) : (
+        <div className="flex w-full flex-col items-center">
+          <div className="flex flex-col">
+            {accounts &&
+              accounts.map((account, i) => (
+                <div
+                  key={account.id}
+                  className={`relative
+                mt-[-10rem]  rounded-md transition-all first-of-type:mt-0 hover:translate-y-[-60%] last-of-type:hover:translate-y-[-20%] ${
+                  gradients[i] ||
+                  "bg-gradient-to-b from-[rgba(8,234,61,1)] to-[rgba(201,255,213,1)]"
+                } `}
+                >
+                  <AccountCard accountData={account} />
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+      <div className="mt-10 flex w-full items-center justify-center">
+        {isAddingAccount ? (
+          <div onClick={() => createStack()}>
+            <Button>Save Stack</Button>
+          </div>
+        ) : (
+          <div onClick={() => setIsAddingAccount(!isAddingAccount)}>
+            <Button>Add Stack</Button>
+          </div>
+        )}
       </div>
-    </div>
+      {isLoading && <span>Loading...</span>}
+      {isSuccess && <span>Minted!</span>}
+    </>
   );
 };
 
@@ -209,6 +319,45 @@ const EthStacks = () => {
       console.log('onSignOut');
     },
   });
+// const Main = ({
+//   formState,
+//   handleFormChange,
+// }: {
+//   formState: FormValues;
+//   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+// }) => {
+//   const [isAddingAccount, setIsAddingAccount] = useState(false);
+//   return (
+//     <div>
+//       {isAddingAccount ? (
+
+//       ) : (
+//         <Accounts />
+//       )}
+//     </div>
+//   );
+// };
+
+const EthStacks = () => {
+  const { address } = useAccount();
+
+  const initialValues = {
+    label: "",
+    icon: "",
+  };
+
+  const [formState, dispatch] = useReducer(
+    (state: FormValues, newState: Partial<FormValues>) => ({
+      ...state,
+      ...newState,
+    }),
+    initialValues
+  );
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch({ [name]: value });
+  };
 
   return (
     <div className="absolute right-0 h-screen w-[50vw] overflow-y-auto  bg-white p-8">
@@ -220,7 +369,7 @@ const EthStacks = () => {
           <Spacer height={1.5} />
           <Divider />
           <Spacer height={2.5} />
-          <Accounts />
+          <Accounts formState={formState} handleFormChange={handleFormChange} />
         </>
       )}
     </div>
