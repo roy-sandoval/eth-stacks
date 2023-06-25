@@ -14,6 +14,7 @@ import Spacer from "~/components/Spacer";
 import Divider from "~/components/Divider";
 import { api } from "~/utils/api";
 import Header from "~/components/Header";
+import { CreateStackButton } from "../components/CreateStackButton";
 import type { Subdirectories } from "@prisma/client";
 import { SIWEButton, useChains, useModal } from "connectkit";
 
@@ -252,7 +253,7 @@ const Accounts = ({
             onClick={() => setIsAddingAccount(!isAddingAccount)}
           >
             <Button>Add Stack</Button>
-            <Button>Create Root</Button>
+            <CreateStackButton/>
           </div>
         )}
       </div>

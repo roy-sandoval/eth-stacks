@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BaseError } from 'viem'
+import { encodeFunctionData } from 'viem'
 import {
   useAccount,
   useContractWrite,
@@ -15,17 +16,27 @@ import Button from './Button'
 
 export function WriteContractPrepared() {
   
-  const abiPath = require(`../utils/deployments/${activeChain}/FinanceNFTFactory.json`);
+  const abiPathToken = require(`../utils/deployments/${activeChain}/ERC20.json`);
+  const abiPath = require(`../utils/deployments/${activeChain}/TBA.json`);
   const addresses = require(`../utils/deployments/${activeChain}/addresses.json`);
 
   //const [tokenId, setTokenId] = useState('')
   //const debouncedTokenId = useDebounce(tokenId)
   const { address } = useAccount();
+
+  // Note: the tokens must already be in the TBA contract!!
+  const amt = "10000";  // 6 decimals for USDC!! -- TODO: get amount from UI form
+  const tokenAddress = addresses.compoundUsdcAddress;
+  const txnData = encodeFunctionData({
+    abi: abiPathToken.abi,
+    functionName: 'approve',
+    args: [addresses.cUSDCv3, amt]
+  });
   const { config } = usePrepareContractWrite({
-    address: addresses.factoryAddress,
+    address: "0x0000000000000000000000000000000000000000",  // TODO: need to get user's deployed TBA contract -- must be deployed for this one
     abi: abiPath.abi,
-    functionName: 'createFinanceNFT',
-    args: ["ETH Stacks NFT", "STACK", address, addresses.uri , addresses.registryAddress, addresses.tbaImplementationAddress ]
+    functionName: 'executeCall',
+    args: [tokenAddress, 0, txnData] 
   });
   const { write, data, error, isLoading, isError } = useContractWrite(config)
   const {
@@ -36,9 +47,9 @@ export function WriteContractPrepared() {
 
   return (
     <>
-      <Button>Create Root</Button>
-      {isLoading && <div>Creating...</div>}
-      {isPending && <div>Created!</div>}
+      <Button>Approve</Button>
+      {isLoading && <div>Approving...</div>}
+      {isPending && <div>Approved!</div>}
       {isError && <div>{(error as BaseError)?.shortMessage}</div>}
     </>
   )
