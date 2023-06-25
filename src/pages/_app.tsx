@@ -1,12 +1,13 @@
-import {  type AppProps } from "next/app";
+import { type AppProps } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
-import { WagmiConfig, createConfig } from 'wagmi';
-import { ConnectKitProvider, type SIWESession } from 'connectkit';
+import { WagmiConfig, createConfig } from "wagmi";
+import { ConnectKitProvider, type SIWESession } from "connectkit";
 import { siweClient } from "@/utils/siweClient";
 import { getDefaultConfig } from "connectkit";
 
 import { goerli, polygonMumbai, gnosisChiado } from "wagmi/chains";
+import React from "react";
 const chains = [goerli, polygonMumbai, gnosisChiado];
 
 const config = createConfig(
@@ -22,8 +23,9 @@ const config = createConfig(
     appDescription: "All of your token bound accounts in one place",
     appUrl: "https://family.co", // your app's url
     appLogo: "https://family.co/logo.png",
-  }),);
-  /*
+  })
+);
+/*
   autoConnect: true,
   publicClient: createPublicClient({
     chain: mainnet,
@@ -32,35 +34,35 @@ const config = createConfig(
 
   */
 
-  function App({ Component, pageProps }: AppProps) {
-    return (
-      <siweClient.Provider
-        onSignIn={(data?: SIWESession) => {
-          console.log('onSignIn Provider', data);
+function App({ Component, pageProps }: AppProps) {
+  return (
+    <siweClient.Provider
+      onSignIn={(data?: SIWESession) => {
+        console.log("onSignIn Provider", data);
+      }}
+      onSignOut={() => {
+        console.log("onSignOut Provider");
+      }}
+    >
+      <ConnectKitProvider
+        onConnect={(data) => {
+          console.log("onConnect Provider", data);
         }}
-        onSignOut={() => {
-          console.log('onSignOut Provider');
+        onDisconnect={() => {
+          console.log("onDisconnect Provider");
         }}
+        debugMode
       >
-        <ConnectKitProvider
-          onConnect={(data) => {
-            console.log('onConnect Provider', data);
-          }}
-          onDisconnect={() => {
-            console.log('onDisconnect Provider');
-          }}
-          debugMode
-        >
-          <Component {...pageProps} />
-        </ConnectKitProvider>
-      </siweClient.Provider>
-    );
-  }
+        <Component {...pageProps} />
+      </ConnectKitProvider>
+    </siweClient.Provider>
+  );
+}
 function MyApp(appProps: AppProps) {
   return (
     <>
       <WagmiConfig config={config}>
-          <App {...appProps} />
+        <App {...appProps} />
       </WagmiConfig>
     </>
   );
@@ -95,4 +97,3 @@ export default api.withTRPC(MyApp);
   );
 };
 */
-

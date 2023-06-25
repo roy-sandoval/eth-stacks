@@ -1,5 +1,5 @@
 import Head from "next/head";
-import type { NextPage } from 'next';
+import type { NextPage } from "next";
 import CopyableText from "~/components/CopyableText";
 import {
   useContractWrite,
@@ -7,7 +7,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { motion } from "framer-motion";
-import { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import Balance from "~/components/Balance";
 import Spacer from "~/components/Spacer";
@@ -24,7 +24,7 @@ import {
   type SIWESession,
   useChains,
   useModal,
-} from 'connectkit';
+} from "connectkit";
 
 import {
   useAccount,
@@ -36,7 +36,7 @@ import {
   usePrepareSendTransaction,
   useConnect,
   useDisconnect,
-} from 'wagmi';
+} from "wagmi";
 import Button from "~/components/Button";
 
 const UserTag = () => {
@@ -66,7 +66,6 @@ const SponsorTag = () => {
 
 const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
   const router = useRouter();
-
 
   if (status !== "authenticated") return null;
 
@@ -119,7 +118,6 @@ const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
   );
 };
 
-
 const Accounts = ({
   formState,
   handleFormChange,
@@ -132,7 +130,6 @@ const Accounts = ({
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
   const { isSignedIn, signData } = useSIWE();
-
 
   const { mutate } = api.subdirectory.add.useMutation({
     onSuccess: () => {
@@ -179,7 +176,7 @@ const Accounts = ({
 
   return (
     <>
-        <SIWEButton showSignOutButton />
+      <SIWEButton showSignOutButton />
       {isAddingAccount ? (
         <div className="flex flex-col items-end gap-4">
           <span
@@ -229,7 +226,6 @@ const Accounts = ({
   );
 };
 
-
 const EthStacks = () => {
   const { address } = useAccount();
 
@@ -269,7 +265,6 @@ const EthStacks = () => {
 };
 
 const Home: NextPage = () => {
-
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -278,10 +273,10 @@ const Home: NextPage = () => {
 
   const { open, setOpen, openSIWE, openAbout } = useModal({
     onConnect: () => {
-      console.log('onConnect Hook');
+      console.log("onConnect Hook");
     },
     onDisconnect: () => {
-      console.log('onDisconnect Hook');
+      console.log("onDisconnect Hook");
     },
   });
   const { reset } = useConnect();
@@ -308,12 +303,12 @@ const Home: NextPage = () => {
               {" "}
               <h1 className="text-4xl font-bold">ETH Stacks</h1>
               <SIWEButton showSignOutButton />
-                                        </div>
+            </div>
           )}
         </div>
       </main>
     </>
   );
-}
+};
 
 export default Home;
