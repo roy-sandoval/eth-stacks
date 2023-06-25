@@ -17,14 +17,13 @@ import Header from "~/components/Header";
 import type { Subdirectories } from "@prisma/client";
 import {
   Types,
-  ConnectKitButton,
   Avatar,
+  useSIWE,
   SIWEButton,
   ChainIcon,
   type SIWESession,
   useChains,
   useModal,
-  useSIWE,
 } from 'connectkit';
 
 import {
