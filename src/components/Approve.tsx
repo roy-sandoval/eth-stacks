@@ -26,11 +26,12 @@ export function WriteContractPrepared() {
 
   // Note: the tokens must already be in the TBA contract!!
   const amt = "10000";  // 6 decimals for USDC!! -- TODO: get amount from UI form
-  const tokenAddress = addresses.compoundUsdcAddress;
+  const tokenAddress = addresses.compoundUsdcAddress; // TODO: Or different token from UI
+  const spender = addresses.cUSDCv3; // TODO: or Aave Pool, depending on context
   const txnData = encodeFunctionData({
     abi: abiPathToken.abi,
     functionName: 'approve',
-    args: [addresses.cUSDCv3, amt]
+    args: [spender, amt]
   });
   const { config } = usePrepareContractWrite({
     address: "0x0000000000000000000000000000000000000000",  // TODO: need to get user's deployed TBA contract -- must be deployed for this one
