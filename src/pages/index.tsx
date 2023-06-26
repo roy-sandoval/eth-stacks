@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -323,6 +324,11 @@ const Home: NextPage = () => {
   useEffect(() => setMounted(true), []);
   const { isConnected } = useAccount();
 
+  const styling = {
+    backgroundImage: `url('./logo.png')`,
+    width: "100%",
+    height: "100%",
+  };
   return (
     <>
       <Head>
@@ -333,7 +339,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#f6f6f6]">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-200">
         <div className="relative flex h-full w-full items-center justify-center ">
           {isConnected ? (
             <EthStacks />
