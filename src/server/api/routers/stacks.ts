@@ -25,4 +25,9 @@ export const stacksRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.stacks.findMany();
   }),
+  getAllForUser: publicProcedure
+    .input(z.object({ eoa: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.stacks.findFirst({ where: { eoa: input.eoa } });
+    }),
 });

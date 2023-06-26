@@ -161,11 +161,15 @@ const AccountCard = ({ accountData }: { accountData: Subdirectories }) => {
 const Accounts = ({
   formState,
   handleFormChange,
+  address,
 }: {
   formState: FormValues;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  address: string;
 }) => {
-  const { data: accounts } = api.subdirectory.getAll.useQuery();
+  const { data: accounts } = api.stacks.getAllForUser.useQuery({
+    eoa: address,
+  });
   const factoryAddress = "0xA556719b7b297a7ba14ebC539Ad5360587858669";
   const [isAddingAccount, setIsAddingAccount] = useState(false);
   const ctx = api.useContext();
@@ -303,7 +307,11 @@ const EthStacks = () => {
           <Spacer height={1.5} />
           <Divider />
           <Spacer height={2.5} />
-          <Accounts formState={formState} handleFormChange={handleFormChange} />
+          <Accounts
+            formState={formState}
+            handleFormChange={handleFormChange}
+            address={address}
+          />
         </>
       )}
     </div>
@@ -313,7 +321,6 @@ const EthStacks = () => {
 const Home: NextPage = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
   const { isConnected } = useAccount();
 
   return (
@@ -331,7 +338,7 @@ const Home: NextPage = () => {
           {isConnected ? (
             <EthStacks />
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col items-center gap-4">
               <Image src="/logo.png" height={206} width={98} alt="Eth Stacks" />
               <SIWEButton showSignOutButton />
             </div>
