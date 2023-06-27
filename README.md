@@ -37,6 +37,8 @@ Our goal was to explore use cases leveraging the parent-child relationship of ER
 
 When s Stacks NFT contract is deployed, it also mints the master NFT stack, and deploys an ERC-6551 Account for the master or "root" Stack. All subsequent NFTs minted are "children" NFTs that are owned by this master tokenbound account. Each NFT has it own tokenbound account that hold assets, though it may not be deployed until the user wants to withraw any of the assets. Due to the couterfactual deterministic addresses, asssets can be sent to these addresses prior to deployment, and the user can be confident that only the only of the Stack NFT will ever be able to access them.
 
+*Note:* contracts for ETH Stacks can be found in a separate repo at https://github.com/maceip/eth-stacks-contracts
+
 While the potential is limitless, example included in this submission include:
 - transferring assets between Stacks
 - supplying assets to both Compound and Aave to earn yield (ie. "Savings Stacks")
